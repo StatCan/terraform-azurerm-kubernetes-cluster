@@ -1,14 +1,23 @@
 # Generate a unique Linux username
+#
+# https://registry.terraform.io/providers/ContentSquare/random/latest/docs/resources/pet
+#
 resource "random_pet" "linux_username" {
   length = 2
 }
 
 # Generate a unique Windows username
+#
+# https://registry.terraform.io/providers/ContentSquare/random/latest/docs/resources/pet
+#
 resource "random_pet" "windows_username" {
   length = 2
 }
 
 # Generate a unique Windows password
+#
+# https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password
+#
 resource "random_password" "windows_password" {
   length      = 24
   special     = true
@@ -18,12 +27,16 @@ resource "random_password" "windows_password" {
   min_special = 1
 }
 
-# Azure Kubernetes Service (AKS) cluster
+# Manages a Managed Kubernetes Cluster
+#
+# https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster
+#
 resource "azurerm_kubernetes_cluster" "cluster" {
-  name                = "${var.prefix}-aks"
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  dns_prefix          = var.prefix
+  name                       = "${var.prefix}-aks"
+  resource_group_name        = var.resource_group_name
+  location                   = var.location
+  dns_prefix                 = var.prefix
+  dns_prefix_private_cluster = var.prefix
 
   node_resource_group = var.node_resource_group_name
 
@@ -42,23 +55,20 @@ resource "azurerm_kubernetes_cluster" "cluster" {
 
   # Identity / RBAC
   identity {
-    type                      = "UserAssigned"
-    user_assigned_identity_id = var.user_assigned_identity_id
+    type         = "UserAssigned"
+    identity_ids = var.user_assigned_identity_id
   }
 
-  role_based_access_control {
-    enabled = true
-
-    azure_active_directory {
-      managed                = true
-      admin_group_object_ids = var.admin_group_object_ids
-    }
+  role_based_access_control_enabled = true
+  azure_active_directory_role_based_access_control {
+    managed                = true
+    admin_group_object_ids = var.admin_group_object_ids
   }
 
   # Network configuration
   network_profile {
-    network_plugin = "azure"
-    network_mode   = "transparent"
+    network_plugin = var.network_plugin
+    network_mode   = var.network_mode
     network_policy = var.network_policy
 
     # Require the use of UserDefinedRouting
@@ -66,7 +76,7 @@ resource "azurerm_kubernetes_cluster" "cluster" {
     outbound_type = "userDefinedRouting"
 
     # Load balancer
-    load_balancer_sku = "Standard"
+    load_balancer_sku = "standard"
 
     # IP ranges
     docker_bridge_cidr = var.docker_bridge_cidr
@@ -93,7 +103,7 @@ resource "azurerm_kubernetes_cluster" "cluster" {
     name                 = var.default_node_pool_name
     node_count           = !var.default_node_pool_enable_auto_scaling ? var.default_node_pool_node_count : null
     orchestrator_version = var.default_node_pool_kubernetes_version != null ? var.default_node_pool_kubernetes_version : var.kubernetes_version
-    availability_zones   = var.default_node_pool_availability_zones
+    zones                = var.default_node_pool_availability_zones
     enable_auto_scaling  = var.default_node_pool_enable_auto_scaling
     min_count            = var.default_node_pool_enable_auto_scaling ? var.default_node_pool_auto_scaling_min_nodes : null
     max_count            = var.default_node_pool_enable_auto_scaling ? var.default_node_pool_auto_scaling_max_nodes : null
@@ -109,6 +119,7 @@ resource "azurerm_kubernetes_cluster" "cluster" {
     enable_host_encryption = var.default_node_pool_enable_host_encryption
     os_disk_size_gb        = var.default_node_pool_disk_size_gb
     os_disk_type           = var.default_node_pool_disk_type
+    kubelet_disk_type      = "OS"
 
     # Network configuration
     vnet_subnet_id = var.default_node_pool_subnet_id
@@ -118,32 +129,24 @@ resource "azurerm_kubernetes_cluster" "cluster" {
 
     # Upgrade configuration
     upgrade_settings {
-      max_surge = var.default_node_pool_uprade_max_surge
+      max_surge = var.default_node_pool_upgrade_max_surge
     }
+
+    ultra_ssd_enabled = true
   }
 
   # Addons
-  addon_profile {
-    aci_connector_linux {
-      enabled = false
-    }
+  azure_policy_enabled             = false
+  http_application_routing_enabled = false
+  tags                             = var.tags
+  oidc_issuer_enabled              = var.oidc_issuer_enabled
+  run_command_enabled              = false
+  public_network_access_enabled    = false
 
-    azure_policy {
-      enabled = false
-    }
-
-    http_application_routing {
-      enabled = false
-    }
-
-    kube_dashboard {
-      enabled = false
-    }
-
-    oms_agent {
-      enabled = false
-    }
+  # Kubelet Identity
+  kubelet_identity {
+    client_id                 = var.kubelet_identity_client_id
+    object_id                 = var.kubelet_identity_object_id
+    user_assigned_identity_id = var.kubelet_identity_user_assigned_identity_id
   }
-
-  tags = var.tags
 }
