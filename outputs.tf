@@ -1,4 +1,3 @@
-## Usernames / Passwords
 output "linux_username" {
   value = random_pet.linux_username.id
 }
@@ -11,7 +10,6 @@ output "windows_password" {
   value = random_password.windows_password.result
 }
 
-## Cluster
 output "kubernetes_cluster_id" {
   value = azurerm_kubernetes_cluster.cluster.id
 }
@@ -30,4 +28,8 @@ output "kubernetes_identity" {
 
 output "fqdn" {
   value = azurerm_kubernetes_cluster.cluster.fqdn
+}
+
+output "oidc_issuer_url" {
+  value = azurerm_kubernetes_cluster.cluster.oidc_issuer_url
 }

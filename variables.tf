@@ -1,57 +1,67 @@
 variable "prefix" {
-  description = "Prefix of the cluster"
+  description = "The prefix used for the name of the cluster."
+  type        = string
 }
 
 variable "resource_group_name" {
-  description = "Resource group where to place the cluster"
+  description = "Name of the Resource Group where the Managed Kubernetes Cluster should exist"
+  type        = string
+  nullable    = false
 }
 
 variable "node_resource_group_name" {
-  default = null
+  description = "Name of the Resource Group where the Kubernetes Nodes should exist"
+  default     = null
 }
 
 variable "location" {
-  description = "Location of the cluster"
+  description = "The location where the Managed Kubernetes Cluster should be created."
+  type        = string
+  nullable    = false
+  default     = "Canada Central"
 }
 
 variable "kubernetes_version" {
-  description = "Kubernetes version of the control plane"
-
-  default = "1.17.16"
+  description = "Version of Kubernetes specified when creating the AKS managed cluster"
+  type        = string
+  default     = "1.17.16"
 }
 
 variable "automatic_channel_upgrade" {
   description = "Automatically perform upgrades of the Kubernetes cluster (none, patch, rapid, stable)"
-
-  default = "none"
+  type        = string
+  default     = "none"
 }
 
 variable "api_server_authorized_ip_ranges" {
-  type        = list(string)
   description = "List of IP ranges authorized to reach the API server"
+  type        = list(string)
 
   default = []
 }
 
 variable "private_cluster_enabled" {
-  type        = bool
   description = "Deploy a private cluster control plane. Requires private link + private DNS support."
+  type        = bool
 
   default = false
 }
 
 variable "private_dns_zone_id" {
   description = "Private DNS zone id for use by private clusters. If unset, and a private cluster is requested, the DNS zone will be created and managed by AKS"
+  type        = string
 
   default = null
 }
 
 variable "user_assigned_identity_id" {
   description = "Use Assigned Identity ID for use by the cluster control plane"
+  type        = list(string)
 }
 
 variable "sku_tier" {
   description = "SKU Tier of the cluster (\"Paid\" is preferred)"
+  type        = string
 
   default = "Free"
 }
@@ -185,7 +195,7 @@ variable "default_node_pool_critical_addons_only" {
 
 # Per documentation, https://docs.microsoft.com/en-us/azure/aks/upgrade-cluster#customize-node-surge-upgrade
 #   > For production node pools, we recommend a max-surge setting of 33%.
-variable "default_node_pool_uprade_max_surge" {
+variable "default_node_pool_upgrade_max_surge" {
   description = "Maximum node surge during a node pool upgrade"
 
   default = "33%"
@@ -202,8 +212,43 @@ variable "tags" {
   default = {}
 }
 
+variable "network_plugin" {
+  description = "Network plugin to use"
+
+  default = "azure"
+}
+
 variable "network_policy" {
   description = "Network policy provider to use"
 
   default = "azure"
+}
+
+variable "network_mode" {
+  description = "Network mode to use"
+
+  default = "transparent"
+}
+
+variable "oidc_issuer_enabled" {
+  description = "Enable or Disable the OIDC issuer URL"
+  default     = true
+}
+
+variable "kubelet_identity_client_id" {
+  type        = string
+  description = "The Client ID of the user-defined Managed Identity to be assigned to the Kubelets."
+  default     = null
+}
+
+variable "kubelet_identity_object_id" {
+  type        = string
+  description = "The Object ID of the user-defined Managed Identity assigned to the Kubelets"
+  default     = null
+}
+
+variable "kubelet_identity_user_assigned_identity_id" {
+  type        = string
+  description = "The ID of the User Assigned Identity assigned to the Kubelets"
+  default     = null
 }
