@@ -77,11 +77,19 @@ resource "azurerm_kubernetes_cluster" "cluster" {
 
     # Load balancer
     load_balancer_sku = "standard"
+    load_balancer_profile {
+      idle_timeout_in_minutes     = 30
+      managed_outbound_ip_count   = 1
+      managed_outbound_ipv6_count = 0
+    }
 
     # IP ranges
     docker_bridge_cidr = var.docker_bridge_cidr
     service_cidr       = var.service_cidr
     dns_service_ip     = var.dns_service_ip
+
+    ip_versions = ["IPv4"]
+
   }
 
   # OS profiles
