@@ -30,7 +30,8 @@ provider "azurerm" {
 # https://gitlab.k8s.cloud.statcan.ca/cloudnative/platform/terraform/terraform-azure-kubernetes-cluster
 #
 module "cluster" {
-  source                    = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/platform/terraform/terraform-azure-kubernetes-cluster.git?ref=main"
+  source = "../"
+
   prefix                    = local.prefix
   location                  = "Canada Central"
   resource_group_name       = "ex_rg_name"
