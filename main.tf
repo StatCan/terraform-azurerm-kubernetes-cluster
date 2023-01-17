@@ -35,10 +35,9 @@ resource "azurerm_kubernetes_cluster" "cluster" {
   name                       = "${var.prefix}-aks"
   resource_group_name        = var.resource_group_name
   location                   = var.location
+  node_resource_group        = var.node_resource_group_name
   dns_prefix                 = var.prefix
   dns_prefix_private_cluster = var.prefix
-
-  node_resource_group = var.node_resource_group_name
 
   # Cluster versioning
   kubernetes_version        = var.kubernetes_version
@@ -58,12 +57,18 @@ resource "azurerm_kubernetes_cluster" "cluster" {
     type         = "UserAssigned"
     identity_ids = var.user_assigned_identity_id
   }
+  kubelet_identity {
+    client_id                 = var.kubelet_identity.client_id
+    object_id                 = var.kubelet_identity.object_id
+    user_assigned_identity_id = var.kubelet_identity.user_assigned_identity_id
+  }
 
   role_based_access_control_enabled = true
   azure_active_directory_role_based_access_control {
     managed                = true
     admin_group_object_ids = var.admin_group_object_ids
   }
+  local_account_disabled = var.local_account_disabled
 
   # Network configuration
   network_profile {
@@ -89,7 +94,6 @@ resource "azurerm_kubernetes_cluster" "cluster" {
     dns_service_ip     = var.dns_service_ip
 
     ip_versions = ["IPv4"]
-
   }
 
   # OS profiles
@@ -97,7 +101,7 @@ resource "azurerm_kubernetes_cluster" "cluster" {
     admin_username = random_pet.linux_username.id
 
     ssh_key {
-      key_data = var.ssh_key
+      key_data = var.linux_profile_ssh_key
     }
   }
 
@@ -108,36 +112,36 @@ resource "azurerm_kubernetes_cluster" "cluster" {
 
   # Configure the default node pool
   default_node_pool {
-    name                 = var.default_node_pool_name
-    node_count           = !var.default_node_pool_enable_auto_scaling ? var.default_node_pool_node_count : null
-    orchestrator_version = var.default_node_pool_kubernetes_version != null ? var.default_node_pool_kubernetes_version : var.kubernetes_version
-    zones                = var.default_node_pool_availability_zones
-    enable_auto_scaling  = var.default_node_pool_enable_auto_scaling
-    min_count            = var.default_node_pool_enable_auto_scaling ? var.default_node_pool_auto_scaling_min_nodes : null
-    max_count            = var.default_node_pool_enable_auto_scaling ? var.default_node_pool_auto_scaling_max_nodes : null
+    name                 = var.default_node_pool.name
+    vnet_subnet_id       = var.default_node_pool.vnet_subnet_id
+    orchestrator_version = var.default_node_pool.kubernetes_version != null ? var.default_node_pool.kubernetes_version : var.kubernetes_version
+    zones                = var.default_node_pool.availability_zones
+
+    node_count          = !var.default_node_pool.enable_auto_scaling ? var.default_node_pool.node_count : null
+    enable_auto_scaling = var.default_node_pool.enable_auto_scaling
+    min_count           = var.default_node_pool.enable_auto_scaling ? var.default_node_pool.auto_scaling_min_nodes : null
+    max_count           = var.default_node_pool.enable_auto_scaling ? var.default_node_pool.auto_scaling_max_nodes : null
 
     # Node configuration
-    vm_size               = var.default_node_pool_vm_size
-    node_labels           = var.default_node_pool_labels
+    vm_size               = var.default_node_pool.vm_size
+    node_labels           = var.default_node_pool.node_labels
+    node_taints           = var.default_node_pool.node_taints
     type                  = "VirtualMachineScaleSets"
     enable_node_public_ip = false
-    max_pods              = var.default_node_pool_max_pods
+    max_pods              = var.default_node_pool.max_pods
 
     # Disk configuration
-    enable_host_encryption = var.default_node_pool_enable_host_encryption
-    os_disk_size_gb        = var.default_node_pool_disk_size_gb
-    os_disk_type           = var.default_node_pool_disk_type
+    enable_host_encryption = var.default_node_pool.enable_host_encryption
+    os_disk_size_gb        = var.default_node_pool.os_disk_size_gb
+    os_disk_type           = var.default_node_pool.os_disk_type
     kubelet_disk_type      = "OS"
 
-    # Network configuration
-    vnet_subnet_id = var.default_node_pool_subnet_id
-
     # Only run critical workloads (AKS managed) when enabled
-    only_critical_addons_enabled = var.default_node_pool_critical_addons_only
+    only_critical_addons_enabled = var.default_node_pool.only_critical_addons
 
     # Upgrade configuration
     upgrade_settings {
-      max_surge = var.default_node_pool_upgrade_max_surge
+      max_surge = var.default_node_pool.upgrade_max_surge
     }
 
     ultra_ssd_enabled = true
@@ -146,15 +150,10 @@ resource "azurerm_kubernetes_cluster" "cluster" {
   # Addons
   azure_policy_enabled             = false
   http_application_routing_enabled = false
-  tags                             = var.tags
-  oidc_issuer_enabled              = var.oidc_issuer_enabled
   run_command_enabled              = false
   public_network_access_enabled    = false
+  oidc_issuer_enabled              = var.oidc_issuer.enabled
+  workload_identity_enabled        = var.oidc_issuer.workload_identity_enabled
 
-  # Kubelet Identity
-  kubelet_identity {
-    client_id                 = var.kubelet_identity_client_id
-    object_id                 = var.kubelet_identity_object_id
-    user_assigned_identity_id = var.kubelet_identity_user_assigned_identity_id
-  }
+  tags = var.tags
 }
