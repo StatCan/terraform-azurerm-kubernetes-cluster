@@ -39,4 +39,15 @@ module "cluster" {
 
   tags                        = local.azure_tags
   default_node_pool_subnet_id = "123.34.5.6"
+
+  maintenance_window {
+    allowed {
+      day   = "Saturday"
+      hours = [0, 1] # Maintenance from midnight to 2 AM
+    }
+    allowed {
+      day   = "Sunday"
+      hours = [0, 1] # Maintenance from midnight to 2 AM
+    }
+  }
 }

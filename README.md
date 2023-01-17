@@ -62,7 +62,7 @@ Examples for this module along with various configurations can be found in the [
 | <a name="output_fqdn"></a> [fqdn](#output\_fqdn) | The FQDN of the Azure Kubernetes Managed Cluster. |
 | <a name="output_kubernetes_cluster_id"></a> [kubernetes\_cluster\_id](#output\_kubernetes\_cluster\_id) | The Kubernetes Managed Cluster ID. |
 | <a name="output_kubernetes_identity"></a> [kubernetes\_identity](#output\_kubernetes\_identity) | The managed service identity assigned to the Kubernetes cluster |
-| <a name="output_kubernetes_kubelet_identity"></a> [kubernetes\_kubelet\_identity](#output\_kubernetes\_kubelet\_identity) | The kubelet identity information. |
+| <a name="output_kubernetes_kubelet_identity"></a> [kubernetes\_kubelet\_identity](#output\_kubernetes\_kubelet\_identity) | The user-defined Managed Identity assigned to the Kubelets. |
 | <a name="output_linux_username"></a> [linux\_username](#output\_linux\_username) | The Admin Username for the Cluster. |
 | <a name="output_node_resource_group_name"></a> [node\_resource\_group\_name](#output\_node\_resource\_group\_name) | The auto-generated Resource Group which contains the resources for this Managed Kubernetes Cluster. |
 | <a name="output_oidc_issuer_url"></a> [oidc\_issuer\_url](#output\_oidc\_issuer\_url) | The OIDC issuer URL that is associated with the cluster. |
