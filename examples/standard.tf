@@ -25,12 +25,12 @@ provider "azurerm" {
 ### Kubernetes Cluster Module ###
 #################################
 
-# Manages a Managed Kubernetes Cluster
+# Manages a Managed Kubernetes Cluster.
 #
-# https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster
+# https://gitlab.k8s.cloud.statcan.ca/cloudnative/platform/terraform/terraform-azure-kubernetes-cluster
 #
 module "cluster" {
-  source                    = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/terraform/modules/terraform-azurerm-kubernetes-cluster.git?ref=main"
+  source                    = "git::https://gitlab.k8s.cloud.statcan.ca/cloudnative/platform/terraform/terraform-azure-kubernetes-cluster.git?ref=main"
   prefix                    = local.prefix
   location                  = "Canada Central"
   resource_group_name       = "ex_rg_name"
