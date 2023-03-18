@@ -32,11 +32,11 @@ provider "azurerm" {
 module "cluster" {
   source = "../"
 
-  prefix                    = local.prefix
-  location                  = "Canada Central"
-  resource_group_name       = "ex_rg_name"
-  user_assigned_identity_id = "1234"
-  ssh_key                   = local.cluster_ssh_key
+  prefix                     = local.prefix
+  location                   = "Canada Central"
+  resource_group_name        = "ex_rg_name"
+  user_assigned_identity_ids = ["1234"]
+  ssh_key                    = local.cluster_ssh_key
 
   tags                        = local.azure_tags
   default_node_pool_subnet_id = "123.34.5.6"

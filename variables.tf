@@ -79,8 +79,8 @@ variable "sku_tier" {
 ### Identity / RBAC ###
 #######################
 
-variable "user_assigned_identity_id" {
-  description = "Use Assigned Identity ID for use by the cluster control plane"
+variable "user_assigned_identity_ids" {
+  description = "User Assigned Identity IDs for use by the cluster control plane"
   type        = list(string)
 }
 

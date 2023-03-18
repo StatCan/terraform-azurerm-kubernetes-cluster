@@ -32,22 +32,22 @@ resource "random_password" "windows_password" {
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster
 #
 resource "azurerm_kubernetes_cluster" "cluster" {
-  name                       = "${var.prefix}-aks"
-  resource_group_name        = var.resource_group_name
-  location                   = var.location
-  node_resource_group        = var.node_resource_group_name
-  dns_prefix                 = var.prefix
-  dns_prefix_private_cluster = var.prefix
+  name                = "${var.prefix}-aks"
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  node_resource_group = var.node_resource_group_name
+
+  dns_prefix                 = var.private_cluster_enabled ? null : var.prefix
+  dns_prefix_private_cluster = var.private_cluster_enabled ? var.prefix : null
 
   # Cluster versioning
   kubernetes_version        = var.kubernetes_version
   automatic_channel_upgrade = var.automatic_channel_upgrade != "none" ? var.automatic_channel_upgrade : null
 
   # API Server
-  api_server_authorized_ip_ranges = var.api_server_authorized_ip_ranges
-  private_cluster_enabled         = var.private_cluster_enabled
-  private_dns_zone_id             = var.private_cluster_enabled ? (var.private_dns_zone_id != null ? var.private_dns_zone_id : "System") : null
-  sku_tier                        = var.sku_tier
+  private_cluster_enabled = var.private_cluster_enabled
+  private_dns_zone_id     = var.private_cluster_enabled ? (var.private_dns_zone_id != null ? var.private_dns_zone_id : "System") : null
+  sku_tier                = var.sku_tier
 
   # Encryption
   disk_encryption_set_id = var.disk_encryption_set_id
@@ -55,8 +55,13 @@ resource "azurerm_kubernetes_cluster" "cluster" {
   # Identity / RBAC
   identity {
     type         = "UserAssigned"
-    identity_ids = var.user_assigned_identity_id
+    identity_ids = var.user_assigned_identity_ids
   }
+
+  api_server_access_profile {
+    authorized_ip_ranges = var.api_server_authorized_ip_ranges
+  }
+
   kubelet_identity {
     client_id                 = var.kubelet_identity.client_id
     object_id                 = var.kubelet_identity.object_id
@@ -64,6 +69,7 @@ resource "azurerm_kubernetes_cluster" "cluster" {
   }
 
   role_based_access_control_enabled = true
+
   azure_active_directory_role_based_access_control {
     managed                = true
     admin_group_object_ids = var.admin_group_object_ids
@@ -82,10 +88,10 @@ resource "azurerm_kubernetes_cluster" "cluster" {
 
     # Load balancer
     load_balancer_sku = "standard"
+
     load_balancer_profile {
-      idle_timeout_in_minutes     = 30
-      managed_outbound_ip_count   = 1
-      managed_outbound_ipv6_count = 0
+      idle_timeout_in_minutes   = 30
+      managed_outbound_ip_count = 1
     }
 
     # IP ranges

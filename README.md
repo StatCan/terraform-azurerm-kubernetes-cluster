@@ -32,7 +32,7 @@ Examples for this module along with various configurations can be found in the [
 | <a name="input_linux_profile_ssh_key"></a> [linux\_profile\_ssh\_key](#input\_linux\_profile\_ssh\_key) | SSH key for connecting to nodes.  Changing this will update the key on all node pools. | `string` | n/a | yes |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | The prefix used for the name of the cluster. | `string` | n/a | yes |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | Name of the Resource Group where the Managed Kubernetes Cluster should exist | `string` | n/a | yes |
-| <a name="input_user_assigned_identity_id"></a> [user\_assigned\_identity\_id](#input\_user\_assigned\_identity\_id) | Use Assigned Identity ID for use by the cluster control plane | `list(string)` | n/a | yes |
+| <a name="input_user_assigned_identity_ids"></a> [user\_assigned\_identity\_ids](#input\_user\_assigned\_identity\_ids) | User Assigned Identity IDs for use by the cluster control plane | `list(string)` | n/a | yes |
 | <a name="input_admin_group_object_ids"></a> [admin\_group\_object\_ids](#input\_admin\_group\_object\_ids) | A list of Azure AAD group object IDs that will receive administrative access to the cluster | `list(string)` | `[]` | no |
 | <a name="input_api_server_authorized_ip_ranges"></a> [api\_server\_authorized\_ip\_ranges](#input\_api\_server\_authorized\_ip\_ranges) | List of IP ranges authorized to reach the API server | `list(string)` | `[]` | no |
 | <a name="input_automatic_channel_upgrade"></a> [automatic\_channel\_upgrade](#input\_automatic\_channel\_upgrade) | Automatically perform upgrades of the Kubernetes cluster (none, patch, rapid, stable) | `string` | `"none"` | no |
