@@ -36,19 +36,27 @@ module "cluster" {
   location                   = "Canada Central"
   resource_group_name        = "ex_rg_name"
   user_assigned_identity_ids = ["1234"]
-  ssh_key                    = local.cluster_ssh_key
 
-  tags                        = local.azure_tags
-  default_node_pool_subnet_id = "123.34.5.6"
+  linux_profile_ssh_key = local.cluster_ssh_key
 
-  maintenance_window {
-    allowed {
-      day   = "Saturday"
-      hours = [0, 1] # Maintenance from midnight to 2 AM
-    }
-    allowed {
-      day   = "Sunday"
-      hours = [0, 1] # Maintenance from midnight to 2 AM
-    }
+  default_node_pool = {
+    node_count             = 3
+    kubernetes_version     = null
+    availability_zones     = [1, 2, 3]
+    vm_size                = "Standard_D16s_v3"
+    node_labels            = {}
+    node_taints            = []
+    max_pods               = 60
+    enable_host_encryption = false
+    os_disk_size_gb        = 256
+    os_disk_type           = "Managed"
+    os_type                = "Linux"
+    vnet_subnet_id         = ""
+    upgrade_max_surge      = "33%"
+    enable_auto_scaling    = false
+    auto_scaling_min_nodes = 0
+    auto_scaling_max_nodes = 3
   }
+
+  tags = local.azure_tags
 }
