@@ -83,15 +83,23 @@ resource "azurerm_kubernetes_cluster" "cluster" {
     network_policy = var.network_policy
 
     # Require the use of UserDefinedRouting
-    # to force the use of a firewall device
-    outbound_type = "userDefinedRouting"
+    # if want to force the use of a firewall device
+    outbound_type = var.outbound_type
 
     # Load balancer
-    load_balancer_sku = "standard"
+    load_balancer_sku = var.load_balancer.sku
 
-    load_balancer_profile {
-      idle_timeout_in_minutes   = 30
-      managed_outbound_ip_count = 1
+    dynamic "load_balancer_profile" {
+      for_each = var.load_balancer.profile_enabled && var.load_balancer.sku == "standard" ? ["load_balancer_profile"] : []
+
+      content {
+        idle_timeout_in_minutes     = var.load_balancer.profile_idle_timeout_in_minutes
+        managed_outbound_ip_count   = var.load_balancer.profile_managed_outbound_ip_count
+        managed_outbound_ipv6_count = var.load_balancer.profile_managed_outbound_ipv6_count
+        outbound_ip_address_ids     = var.load_balancer.profile_outbound_ip_address_ids
+        outbound_ip_prefix_ids      = var.load_balancer.profile_outbound_ip_prefix_ids
+        outbound_ports_allocated    = var.load_balancer.profile_outbound_ports_allocated
+      }
     }
 
     # IP ranges

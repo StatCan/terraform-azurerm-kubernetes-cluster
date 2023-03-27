@@ -141,6 +141,38 @@ variable "network_mode" {
   default     = "transparent"
 }
 
+# Outbound Type
+variable "outbound_type" {
+  description = " The outbound (egress) routing method which should be used for this Kubernetes Cluster. Possible values are loadBalancer, userDefinedRouting, managedNATGateway and userAssignedNATGateway."
+  default     = "userDefinedRouting"
+}
+
+# Load Balancer
+variable "load_balancer" {
+  description = "The load balancer configuration arguments. The profile can't be enabled if var.outbound_type userDefinedRouting. Refer to https://learn.microsoft.com/en-us/azure/aks/egress-outboundtype for more details."
+  type = object({
+    sku                                 = optional(string, "standard")
+    profile_enabled                     = optional(bool, true)
+    profile_idle_timeout_in_minutes     = optional(number, 30)
+    profile_managed_outbound_ip_count   = optional(number)
+    profile_managed_outbound_ipv6_count = optional(number)
+    profile_outbound_ip_address_ids     = optional(set(string))
+    profile_outbound_ip_prefix_ids      = optional(set(string))
+    profile_outbound_ports_allocated    = optional(number, 0)
+
+  })
+  default = {
+    enabled = false
+  }
+
+  validation {
+    condition = (
+      !(var.load_balancer.profile_enabled == true && var.load_balancer.sku != "standard")
+    )
+    error_message = "Enabling var.load_balancer.profile_enabled requires that `load_balancer_sku` be set to `standard`."
+  }
+}
+
 ##########################
 ### Disk Configuration ###
 ##########################
