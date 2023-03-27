@@ -91,7 +91,11 @@ variable "kubelet_identity" {
     object_id                 = string
     user_assigned_identity_id = string
   })
-  default = null
+  default = {
+    client_id                 = null
+    object_id                 = null
+    user_assigned_identity_id = null
+  }
 }
 
 variable "admin_group_object_ids" {
