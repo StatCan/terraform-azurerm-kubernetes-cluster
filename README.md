@@ -73,6 +73,7 @@ Examples for this module along with various configurations can be found in the [
 
 | Date       | Release | Change                                                                                      |
 | ---------- | ------- | ------------------------------------------------------------------------------------------- |
+| 2023-03-27 | v2.0.1  | fix the default value for var.kubelet_identity                                              |
 | 2023-03-27 | v2.0.0  | remove var.docker-bridge-cidr since it has been deprecated                                  |
 | 2023-03-17 | v1.0.1  | fix api_server_access_profile, load_balancer_profile & rename var.user_assigned_identity_id |
 | 2022-11-22 | v1.0.0  | initial commit                                                                              |
