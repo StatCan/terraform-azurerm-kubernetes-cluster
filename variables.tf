@@ -111,11 +111,6 @@ variable "local_account_disabled" {
 #######################
 
 # IP Ranges
-variable "docker_bridge_cidr" {
-  description = "IP address (in CIDR notation) used as the Docker bridge IP address on nodes. Changing this forces a new resource to be created."
-  default     = "172.17.0.1/16"
-}
-
 variable "service_cidr" {
   description = "The Network Range used by the Kubernetes service. Changing this forces a new resource to be created."
   default     = "10.0.0.0/16"

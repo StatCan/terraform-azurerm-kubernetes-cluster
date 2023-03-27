@@ -95,9 +95,8 @@ resource "azurerm_kubernetes_cluster" "cluster" {
     }
 
     # IP ranges
-    docker_bridge_cidr = var.docker_bridge_cidr
-    service_cidr       = var.service_cidr
-    dns_service_ip     = var.dns_service_ip
+    service_cidr   = var.service_cidr
+    dns_service_ip = var.dns_service_ip
 
     ip_versions = ["IPv4"]
   }

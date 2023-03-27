@@ -38,7 +38,6 @@ Examples for this module along with various configurations can be found in the [
 | <a name="input_automatic_channel_upgrade"></a> [automatic\_channel\_upgrade](#input\_automatic\_channel\_upgrade) | Automatically perform upgrades of the Kubernetes cluster (none, patch, rapid, stable) | `string` | `"none"` | no |
 | <a name="input_disk_encryption_set_id"></a> [disk\_encryption\_set\_id](#input\_disk\_encryption\_set\_id) | Used to encrypt the cluster's Nodes and Volumes with Customer Managed Keys. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_dns_service_ip"></a> [dns\_service\_ip](#input\_dns\_service\_ip) | IP address within the Kubernetes service address range that will be used by cluster service discovery (kube-dns). Changing this forces a new resource to be created. | `string` | `"10.0.0.10"` | no |
-| <a name="input_docker_bridge_cidr"></a> [docker\_bridge\_cidr](#input\_docker\_bridge\_cidr) | IP address (in CIDR notation) used as the Docker bridge IP address on nodes. Changing this forces a new resource to be created. | `string` | `"172.17.0.1/16"` | no |
 | <a name="input_kubelet_identity"></a> [kubelet\_identity](#input\_kubelet\_identity) | The user-defined Managed Identity assigned to the Kubelets | <pre>object({<br>    client_id                 = string<br>    object_id                 = string<br>    user_assigned_identity_id = string<br>  })</pre> | `null` | no |
 | <a name="input_kubernetes_version"></a> [kubernetes\_version](#input\_kubernetes\_version) | Version of Kubernetes specified when creating the AKS managed cluster | `string` | `"1.17.16"` | no |
 | <a name="input_local_account_disabled"></a> [local\_account\_disabled](#input\_local\_account\_disabled) | If true local accounts will be disabled. See the documentation https://learn.microsoft.com/en-us/azure/aks/managed-aad#disable-local-accounts for more information. | `bool` | `true` | no |
@@ -72,6 +71,8 @@ Examples for this module along with various configurations can be found in the [
 
 ## History
 
-| Date       | Release | Change         |
-| ---------- | ------- | -------------- |
-| 2022-11-22 | v2.0.0  | initial commit |
+| Date       | Release | Change                                                                                      |
+| ---------- | ------- | ------------------------------------------------------------------------------------------- |
+| 2023-03-27 | v2.0.0  | remove var.docker-bridge-cidr since it has been deprecated                                  |
+| 2023-03-17 | v1.0.1  | fix api_server_access_profile, load_balancer_profile & rename var.user_assigned_identity_id |
+| 2022-11-22 | v1.0.0  | initial commit                                                                              |
