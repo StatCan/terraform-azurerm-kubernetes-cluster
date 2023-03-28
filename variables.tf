@@ -183,9 +183,9 @@ variable "disk_encryption_set_id" {
   default     = null
 }
 
-#########################
-### Default Node Pool ###
-#########################
+#################
+### Node Pool ###
+#################
 
 variable "default_node_pool" {
   description = "The configuration details of the cluster's default node pool."
@@ -210,6 +210,34 @@ variable "default_node_pool" {
     os_disk_size_gb        = optional(number, 256)
     os_disk_type           = optional(string, "managed")
   })
+}
+
+variable "auto_scaler_profile" {
+  description = "The configuration details for the cluster's auto scaler profile."
+  type = object({
+    expander      = optional(string, "random")
+    scan_interval = optional(string, "10s")
+
+    new_pod_scale_up_delay = optional(string, "10s")
+
+    scale_down_utilization_threshold = optional(number, 0.5)
+    scale_down_delay_after_add       = optional(string, "10m")
+    scale_down_delay_after_delete    = optional(string) // defaults to scan_interval
+    scale_down_delay_after_failure   = optional(string, "3m")
+    scale_down_unneeded              = optional(string, "10m")
+    scale_down_unready               = optional(string, "20m")
+
+    max_graceful_termination_sec = optional(number, 600)
+    max_node_provisioning_time   = optional(string, "15m")
+    max_unready_nodes            = optional(number, 3)
+    max_unready_percentage       = optional(number, 45)
+
+    skip_nodes_with_local_storage = optional(bool, true)
+    skip_nodes_with_system_pods   = optional(bool, true)
+    balance_similar_node_groups   = optional(bool, false)
+    empty_bulk_delete_max         = optional(number, 10)
+  })
+  default = null
 }
 
 ##############

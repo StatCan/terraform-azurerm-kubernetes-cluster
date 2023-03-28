@@ -160,6 +160,34 @@ resource "azurerm_kubernetes_cluster" "cluster" {
     ultra_ssd_enabled = true
   }
 
+  dynamic "auto_scaler_profile" {
+    for_each = var.auto_scaler_profile != null ? ["default_auto_scaler_profile"] : []
+
+    content {
+      expander      = var.auto_scaler_profile.expander
+      scan_interval = var.auto_scaler_profile.scan_interval
+
+      new_pod_scale_up_delay = var.auto_scaler_profile.new_pod_scale_up_delay
+
+      scale_down_utilization_threshold = var.auto_scaler_profile.scale_down_utilization_threshold
+      scale_down_delay_after_add       = var.auto_scaler_profile.scale_down_delay_after_add
+      scale_down_delay_after_delete    = var.auto_scaler_profile.scale_down_delay_after_delete
+      scale_down_delay_after_failure   = var.auto_scaler_profile.scale_down_delay_after_failure
+      scale_down_unneeded              = var.auto_scaler_profile.scale_down_unneeded
+      scale_down_unready               = var.auto_scaler_profile.scale_down_unready
+
+      max_graceful_termination_sec = var.auto_scaler_profile.max_graceful_termination_sec
+      max_node_provisioning_time   = var.auto_scaler_profile.max_node_provisioning_time
+      max_unready_nodes            = var.auto_scaler_profile.max_unready_nodes
+      max_unready_percentage       = var.auto_scaler_profile.max_unready_percentage
+
+      skip_nodes_with_local_storage = var.auto_scaler_profile.skip_nodes_with_local_storage
+      skip_nodes_with_system_pods   = var.auto_scaler_profile.skip_nodes_with_system_pods
+      balance_similar_node_groups   = var.auto_scaler_profile.balance_similar_node_groups
+      empty_bulk_delete_max         = var.auto_scaler_profile.empty_bulk_delete_max
+    }
+  }
+
   # Addons
   azure_policy_enabled             = false
   http_application_routing_enabled = false
