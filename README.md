@@ -44,6 +44,7 @@ Examples for this module along with various configurations can be found in the [
 | <a name="input_load_balancer"></a> [load\_balancer](#input\_load\_balancer) | The load balancer configuration arguments. The profile can't be enabled if var.outbound\_type userDefinedRouting. Refer to https://learn.microsoft.com/en-us/azure/aks/egress-outboundtype for more details. | <pre>object({<br>    sku                                 = optional(string, "standard")<br>    profile_enabled                     = optional(bool, true)<br>    profile_idle_timeout_in_minutes     = optional(number, 30)<br>    profile_managed_outbound_ip_count   = optional(number)<br>    profile_managed_outbound_ipv6_count = optional(number)<br>    profile_outbound_ip_address_ids     = optional(set(string))<br>    profile_outbound_ip_prefix_ids      = optional(set(string))<br>    profile_outbound_ports_allocated    = optional(number, 0)<br><br>  })</pre> | <pre>{<br>  "enabled": false<br>}</pre> | no |
 | <a name="input_local_account_disabled"></a> [local\_account\_disabled](#input\_local\_account\_disabled) | If true local accounts will be disabled. See the documentation https://learn.microsoft.com/en-us/azure/aks/managed-aad#disable-local-accounts for more information. | `bool` | `true` | no |
 | <a name="input_location"></a> [location](#input\_location) | The location where the Managed Kubernetes Cluster should be created. | `string` | `"Canada Central"` | no |
+| <a name="input_maintenance_window"></a> [maintenance\_window](#input\_maintenance\_window) | The maintenance window for the cluster. Refer to https://learn.microsoft.com/en-us/azure/aks/planned-maintenance for more information. | <pre>object({<br>    allowed = list(object({<br>      day   = string<br>      hours = set(number)<br>    })),<br>    not_allowed = list(object({<br>      end   = string<br>      start = string<br>    })),<br>  })</pre> | `null` | no |
 | <a name="input_network_mode"></a> [network\_mode](#input\_network\_mode) | Network mode to use | `string` | `"transparent"` | no |
 | <a name="input_network_plugin"></a> [network\_plugin](#input\_network\_plugin) | Network plugin to use | `string` | `"azure"` | no |
 | <a name="input_network_policy"></a> [network\_policy](#input\_network\_policy) | Network policy provider to use | `string` | `"azure"` | no |
@@ -76,7 +77,8 @@ Examples for this module along with various configurations can be found in the [
 
 | Date       | Release | Change                                                                                      |
 | ---------- | ------- | ------------------------------------------------------------------------------------------- |
-| 2023-03-28 | v2.2.0  | add auto_scaler_profile variable                                                            |
+| 2023-03-28 | v2.3.0  | add the maintenance_window variable                                                         |
+| 2023-03-28 | v2.2.0  | add the auto_scaler_profile variable                                                        |
 | 2023-03-27 | v2.1.0  | refactor load balancer profile & disable it by default                                      |
 | 2023-03-27 | v2.0.1  | fix the default value for var.kubelet_identity                                              |
 | 2023-03-27 | v2.0.0  | remove var.docker-bridge-cidr since it has been deprecated                                  |
