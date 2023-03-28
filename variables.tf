@@ -31,9 +31,9 @@ variable "tags" {
   default     = {}
 }
 
-##########################
-### Cluster Versioning ###
-##########################
+########################################
+### Cluster Versioning & Maintenance ###
+########################################
 
 variable "kubernetes_version" {
   description = "Version of Kubernetes specified when creating the AKS managed cluster"
@@ -45,6 +45,21 @@ variable "automatic_channel_upgrade" {
   description = "Automatically perform upgrades of the Kubernetes cluster (none, patch, rapid, stable)"
   type        = string
   default     = "none"
+}
+
+variable "maintenance_window" {
+  description = "The maintenance window for the cluster. Refer to https://learn.microsoft.com/en-us/azure/aks/planned-maintenance for more information."
+  type = object({
+    allowed = list(object({
+      day   = string
+      hours = set(number)
+    })),
+    not_allowed = list(object({
+      end   = string
+      start = string
+    })),
+  })
+  default = null
 }
 
 ##################
