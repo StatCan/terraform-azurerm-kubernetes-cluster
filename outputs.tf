@@ -36,6 +36,11 @@ output "node_resource_group_name" {
   value       = azurerm_kubernetes_cluster.cluster.node_resource_group
 }
 
+output "node_resource_group_id" {
+  description = "The ID of the Resource Group containing the resources for this Managed Kubernetes Cluster."
+  value       = azurerm_kubernetes_cluster.cluster.node_resource_group_id
+}
+
 output "fqdn" {
   description = "The FQDN of the Azure Kubernetes Managed Cluster."
   value       = azurerm_kubernetes_cluster.cluster.fqdn
