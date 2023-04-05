@@ -177,7 +177,7 @@ variable "load_balancer" {
 
   })
   default = {
-    enabled = false
+    profile_enabled = false
   }
 
   validation {
