@@ -77,6 +77,7 @@ Examples for this module along with various configurations can be found in the [
 
 | Date       | Release | Change                                                                                      |
 | ---------- | ------- | ------------------------------------------------------------------------------------------- |
+| 2023-04-05 | v2.5.0  | add default value for cluster's node_resource_group arugment                                |
 | 2023-03-30 | v2.4.0  | add the node_resource_group_id output                                                       |
 | 2023-03-28 | v2.3.0  | add the maintenance_window variable                                                         |
 | 2023-03-28 | v2.2.0  | add the auto_scaler_profile variable                                                        |

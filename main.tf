@@ -35,7 +35,7 @@ resource "azurerm_kubernetes_cluster" "cluster" {
   name                = "${var.prefix}-aks"
   resource_group_name = var.resource_group_name
   location            = var.location
-  node_resource_group = var.node_resource_group_name
+  node_resource_group = var.node_resource_group_name == null ? "${var.prefix}-aks-managed-rg" : var.node_resource_group_name
 
   dns_prefix                 = var.private_cluster_enabled ? null : var.prefix
   dns_prefix_private_cluster = var.private_cluster_enabled ? var.prefix : null
