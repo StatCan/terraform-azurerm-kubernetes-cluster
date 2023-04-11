@@ -84,6 +84,18 @@ variable "private_dns_zone_id" {
   default     = null
 }
 
+variable "dns_prefix" {
+  description = "DNS prefix specified when creating the managed cluster. Possible values must begin and end with a letter or number, contain only letters, numbers, and hyphens and be between 1 and 54 characters in length. Changing this forces a new resource to be created."
+  type        = string
+  default     = null
+}
+
+variable "dns_prefix_private_cluster" {
+  description = " Specifies the DNS prefix to use with private clusters. Changing this forces a new resource to be created."
+  type        = string
+  default     = null
+}
+
 variable "sku_tier" {
   description = "SKU Tier of the cluster (\"Paid\" is preferred). The SKU determines the cluster's uptime SLA. Refer to https://learn.microsoft.com/en-us/azure/aks/uptime-sla for more information."
   type        = string

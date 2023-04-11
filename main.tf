@@ -37,17 +37,16 @@ resource "azurerm_kubernetes_cluster" "cluster" {
   location            = var.location
   node_resource_group = var.node_resource_group_name == null ? "${var.prefix}-aks-managed-rg" : var.node_resource_group_name
 
-  dns_prefix                 = var.private_cluster_enabled ? null : var.prefix
-  dns_prefix_private_cluster = var.private_cluster_enabled ? var.prefix : null
-
   # Cluster versioning
   kubernetes_version        = var.kubernetes_version
   automatic_channel_upgrade = var.automatic_channel_upgrade != "none" ? var.automatic_channel_upgrade : null
 
   # API Server
-  private_cluster_enabled = var.private_cluster_enabled
-  private_dns_zone_id     = var.private_cluster_enabled ? (var.private_dns_zone_id != null ? var.private_dns_zone_id : "System") : null
-  sku_tier                = var.sku_tier
+  sku_tier                   = var.sku_tier
+  private_cluster_enabled    = var.private_cluster_enabled
+  private_dns_zone_id        = var.private_cluster_enabled ? (var.private_dns_zone_id != null ? var.private_dns_zone_id : "System") : null
+  dns_prefix                 = var.dns_prefix
+  dns_prefix_private_cluster = var.dns_prefix_private_cluster
 
   # Encryption
   disk_encryption_set_id = var.disk_encryption_set_id
