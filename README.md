@@ -54,6 +54,7 @@ Examples for this module along with various configurations can be found in the [
 | <a name="input_oidc_issuer"></a> [oidc\_issuer](#input\_oidc\_issuer) | Enable or Disable the OIDC issuer URL and specifies whether Azure AD Workload Identity should be enabled for the Cluster | <pre>object({<br>    enabled                   = bool<br>    workload_identity_enabled = optional(bool, false)<br>  })</pre> | <pre>{<br>  "enabled": true,<br>  "workload_identity_enabled": false<br>}</pre> | no |
 | <a name="input_outbound_type"></a> [outbound\_type](#input\_outbound\_type) | The outbound (egress) routing method which should be used for this Kubernetes Cluster. Possible values are loadBalancer, userDefinedRouting, managedNATGateway and userAssignedNATGateway. | `string` | `"userDefinedRouting"` | no |
 | <a name="input_private_cluster_enabled"></a> [private\_cluster\_enabled](#input\_private\_cluster\_enabled) | Deploy a private cluster control plane. Requires private link + private DNS support. The api\_server\_authorized\_ip\_ranges option is disabled when private cluster is enabled. | `bool` | `false` | no |
+| <a name="input_private_dns_zone_id"></a> [private\_dns\_zone\_id](#input\_private\_dns\_zone\_id) | Private DNS zone id for use by private clusters. If unset, and a private cluster is requested, the DNS zone will be created and managed by AKS | `string` | `null` | no |
 | <a name="input_service_cidr"></a> [service\_cidr](#input\_service\_cidr) | The Network Range used by the Kubernetes service. Changing this forces a new resource to be created. | `string` | `"10.0.0.0/16"` | no |
 | <a name="input_sku_tier"></a> [sku\_tier](#input\_sku\_tier) | SKU Tier of the cluster ("Paid" is preferred). The SKU determines the cluster's uptime SLA. Refer to https://learn.microsoft.com/en-us/azure/aks/uptime-sla for more information. | `string` | `"Free"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Azure tags to assign to the Azure resources | `map(string)` | `{}` | no |
@@ -64,6 +65,7 @@ Examples for this module along with various configurations can be found in the [
 |------|-------------|
 | <a name="output_admin_kubeconfig"></a> [admin\_kubeconfig](#output\_admin\_kubeconfig) | A Terraform object that contain kubeconfig info. This is only available when Role Based Access Control with Azure Active Directory is enabled and local accounts enabled. |
 | <a name="output_fqdn"></a> [fqdn](#output\_fqdn) | The FQDN of the Azure Kubernetes Managed Cluster. |
+| <a name="output_kubeconfig"></a> [kubeconfig](#output\_kubeconfig) | A Terraform object that contains kubeconfig info. |
 | <a name="output_kubernetes_cluster_id"></a> [kubernetes\_cluster\_id](#output\_kubernetes\_cluster\_id) | The Kubernetes Managed Cluster ID. |
 | <a name="output_kubernetes_identity"></a> [kubernetes\_identity](#output\_kubernetes\_identity) | The managed service identity assigned to the Kubernetes cluster |
 | <a name="output_kubernetes_kubelet_identity"></a> [kubernetes\_kubelet\_identity](#output\_kubernetes\_kubelet\_identity) | The user-defined Managed Identity assigned to the Kubelets. |
@@ -79,6 +81,7 @@ Examples for this module along with various configurations can be found in the [
 
 | Date       | Release | Change                                                                                      |
 | ---------- | ------- | ------------------------------------------------------------------------------------------- |
+| 2023-04-18 | v2.7.0  | added cluster kubeconfig to module outputs                                                  |
 | 2023-04-11 | v2.6.0  | create var.dns_prefix & var.dns_prefix_private_cluster                                      |
 | 2023-04-05 | v2.5.1  | fix the default value for var.load_balancer (typo)                                          |
 | 2023-04-05 | v2.5.0  | add default value for cluster's node_resource_group arugment                                |

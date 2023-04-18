@@ -26,6 +26,11 @@ output "kubernetes_cluster_id" {
   value       = azurerm_kubernetes_cluster.cluster.id
 }
 
+output "kubeconfig" {
+  description = "A Terraform object that contains kubeconfig info."
+  value       = azurerm_kubernetes_cluster.cluster.kube_config
+}
+
 output "admin_kubeconfig" {
   description = "A Terraform object that contain kubeconfig info. This is only available when Role Based Access Control with Azure Active Directory is enabled and local accounts enabled."
   value       = var.local_account_disabled == false ? azurerm_kubernetes_cluster.cluster.kube_admin_config : null
