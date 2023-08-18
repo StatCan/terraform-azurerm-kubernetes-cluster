@@ -21,6 +21,7 @@ Examples for this module along with various configurations can be found in the [
 |------|---------|
 | <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | >= 3.15, < 4.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | >= 3.0.1 |
+| <a name="provider_tls"></a> [tls](#provider\_tls) | n/a |
 
 
 
@@ -29,7 +30,6 @@ Examples for this module along with various configurations can be found in the [
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_default_node_pool"></a> [default\_node\_pool](#input\_default\_node\_pool) | The configuration details of the cluster's default node pool. | <pre>object({<br>    name                 = optional(string, "system")<br>    vnet_subnet_id       = string<br>    vm_size              = optional(string, "Standard_D2s_v3")<br>    kubernetes_version   = optional(string, null)<br>    availability_zones   = optional(list(string), null)<br>    node_labels          = optional(map(string), {})<br>    node_taints          = optional(list(string), [])<br>    only_critical_addons = optional(bool, true) # Only run critical workloads (AKS managed) on the node pool when enabled<br><br>    node_count             = optional(number, 3) # Only used if enable_auto_scaling is set to false<br>    enable_auto_scaling    = optional(bool, false)<br>    auto_scaling_min_nodes = optional(number, 3) # Only used if enable_auto_scaling = true<br>    auto_scaling_max_nodes = optional(number, 5) # Only used if enable_auto_scaling = true<br>    max_pods               = optional(number, 60)<br>    upgrade_max_surge      = optional(string, "33%")<br><br>    enable_host_encryption = optional(bool, false)<br>    os_disk_size_gb        = optional(number, 256)<br>    os_disk_type           = optional(string, "managed")<br>  })</pre> | n/a | yes |
-| <a name="input_linux_profile_ssh_key"></a> [linux\_profile\_ssh\_key](#input\_linux\_profile\_ssh\_key) | SSH key for connecting to nodes.  Changing this will update the key on all node pools. | `string` | n/a | yes |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | The prefix used for the name of the cluster. | `string` | n/a | yes |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | Name of the Resource Group where the Managed Kubernetes Cluster should exist | `string` | n/a | yes |
 | <a name="input_user_assigned_identity_ids"></a> [user\_assigned\_identity\_ids](#input\_user\_assigned\_identity\_ids) | User Assigned Identity IDs for use by the cluster control plane | `list(string)` | n/a | yes |
@@ -43,6 +43,7 @@ Examples for this module along with various configurations can be found in the [
 | <a name="input_dns_service_ip"></a> [dns\_service\_ip](#input\_dns\_service\_ip) | IP address within the Kubernetes service address range that will be used by cluster service discovery (kube-dns). Changing this forces a new resource to be created. | `string` | `"10.0.0.10"` | no |
 | <a name="input_kubelet_identity"></a> [kubelet\_identity](#input\_kubelet\_identity) | The user-defined Managed Identity assigned to the Kubelets | <pre>object({<br>    client_id                 = string<br>    object_id                 = string<br>    user_assigned_identity_id = string<br>  })</pre> | <pre>{<br>  "client_id": null,<br>  "object_id": null,<br>  "user_assigned_identity_id": null<br>}</pre> | no |
 | <a name="input_kubernetes_version"></a> [kubernetes\_version](#input\_kubernetes\_version) | Version of Kubernetes specified when creating the AKS managed cluster | `string` | `"1.17.16"` | no |
+| <a name="input_linux_profile_public_ssh_key"></a> [linux\_profile\_public\_ssh\_key](#input\_linux\_profile\_public\_ssh\_key) | The SSH public key used to connect to the cluster's Linux nodes. Changing this will update the key on all node pools. If the value is null, this module will autogenerate an SSH key to use. | `string` | `null` | no |
 | <a name="input_load_balancer"></a> [load\_balancer](#input\_load\_balancer) | The load balancer configuration arguments. The profile can't be enabled if var.outbound\_type userDefinedRouting. Refer to https://learn.microsoft.com/en-us/azure/aks/egress-outboundtype for more details. | <pre>object({<br>    sku                                 = optional(string, "standard")<br>    profile_enabled                     = optional(bool, true)<br>    profile_idle_timeout_in_minutes     = optional(number, 30)<br>    profile_managed_outbound_ip_count   = optional(number)<br>    profile_managed_outbound_ipv6_count = optional(number)<br>    profile_outbound_ip_address_ids     = optional(set(string))<br>    profile_outbound_ip_prefix_ids      = optional(set(string))<br>    profile_outbound_ports_allocated    = optional(number, 0)<br><br>  })</pre> | <pre>{<br>  "profile_enabled": false<br>}</pre> | no |
 | <a name="input_local_account_disabled"></a> [local\_account\_disabled](#input\_local\_account\_disabled) | If true local accounts will be disabled. See the documentation https://learn.microsoft.com/en-us/azure/aks/managed-aad#disable-local-accounts for more information. | `bool` | `true` | no |
 | <a name="input_location"></a> [location](#input\_location) | The location where the Managed Kubernetes Cluster should be created. | `string` | `"Canada Central"` | no |
@@ -65,6 +66,8 @@ Examples for this module along with various configurations can be found in the [
 |------|-------------|
 | <a name="output_admin_kubeconfig"></a> [admin\_kubeconfig](#output\_admin\_kubeconfig) | A Terraform object that contain kubeconfig info. This is only available when Role Based Access Control with Azure Active Directory is enabled and local accounts enabled. |
 | <a name="output_fqdn"></a> [fqdn](#output\_fqdn) | The FQDN of the Azure Kubernetes Managed Cluster. |
+| <a name="output_generated_cluster_private_ssh_key"></a> [generated\_cluster\_private\_ssh\_key](#output\_generated\_cluster\_private\_ssh\_key) | The cluster will use this generated private key when `var.linux_profile_public_ssh_key` is null. Private key data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format. |
+| <a name="output_generated_cluster_public_ssh_key"></a> [generated\_cluster\_public\_ssh\_key](#output\_generated\_cluster\_public\_ssh\_key) | The cluster will use this generated public key as ssh key when `var.linux_profile_public_ssh_key` is empty or null. |
 | <a name="output_kubeconfig"></a> [kubeconfig](#output\_kubeconfig) | A Terraform object that contains kubeconfig info. |
 | <a name="output_kubernetes_cluster_id"></a> [kubernetes\_cluster\_id](#output\_kubernetes\_cluster\_id) | The Kubernetes Managed Cluster ID. |
 | <a name="output_kubernetes_identity"></a> [kubernetes\_identity](#output\_kubernetes\_identity) | The managed service identity assigned to the Kubernetes cluster |
@@ -81,6 +84,7 @@ Examples for this module along with various configurations can be found in the [
 
 | Date       | Release | Change                                                                                      |
 | ---------- | ------- | ------------------------------------------------------------------------------------------- |
+| 2023-08-17 | v3.0.0  | Renamed var.linux_profile_public_ssh_key & autogenerate SSH key if variable is null         |
 | 2023-04-18 | v2.7.0  | added cluster kubeconfig to module outputs                                                  |
 | 2023-04-11 | v2.6.0  | create var.dns_prefix & var.dns_prefix_private_cluster                                      |
 | 2023-04-05 | v2.5.1  | fix the default value for var.load_balancer (typo)                                          |

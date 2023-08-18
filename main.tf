@@ -6,6 +6,17 @@ resource "random_pet" "linux_username" {
   length = 2
 }
 
+# Generate an SSH key pair for the AKS cluster's Linux Profile
+#
+# https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key
+#
+resource "tls_private_key" "ssh" {
+  count = var.linux_profile_public_ssh_key == null ? 1 : 0
+
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
 # Generate a unique Windows username
 #
 # https://registry.terraform.io/providers/ContentSquare/random/latest/docs/resources/pet
@@ -113,7 +124,7 @@ resource "azurerm_kubernetes_cluster" "cluster" {
     admin_username = random_pet.linux_username.id
 
     ssh_key {
-      key_data = var.linux_profile_ssh_key
+      key_data = replace(coalesce(var.linux_profile_public_ssh_key, tls_private_key.ssh[0].public_key_openssh), "\n", "")
     }
   }
 

@@ -295,7 +295,8 @@ variable "oidc_issuer" {
 ### OS Profile / Login Credentials ###
 ######################################
 
-variable "linux_profile_ssh_key" {
-  description = "SSH key for connecting to nodes.  Changing this will update the key on all node pools."
+variable "linux_profile_public_ssh_key" {
+  description = "The SSH public key used to connect to the cluster's Linux nodes. Changing this will update the key on all node pools. If the value is null, this module will autogenerate an SSH key to use."
   type        = string
+  default     = null
 }

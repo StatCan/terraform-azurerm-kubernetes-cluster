@@ -9,8 +9,6 @@ locals {
     PrimaryTechnicalContact = "william.hearn@statcan.gc.ca"
     PrimaryProjectContact   = "zachary.seguin@statcan.gc.ca"
   }
-
-  cluster_ssh_key = "ssh-rsa ArandomstuffhereEAw== ex-dev-cc-00"
 }
 
 #####################
@@ -36,8 +34,6 @@ module "cluster" {
   location                   = "Canada Central"
   resource_group_name        = "ex_rg_name"
   user_assigned_identity_ids = ["1234"]
-
-  linux_profile_ssh_key = local.cluster_ssh_key
 
   default_node_pool = {
     node_count             = 3
