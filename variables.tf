@@ -66,10 +66,14 @@ variable "maintenance_window" {
 ### API Server ###
 ##################
 
-variable "api_server_authorized_ip_ranges" {
-  description = "List of IP ranges authorized to reach the API server"
-  type        = list(string)
-  default     = []
+variable "api_server" {
+  description = "Configuration for the cluster's API server."
+  type = object({
+    authorized_ip_ranges     = optional(list(string))
+    subnet_id                = optional(string)
+    vnet_integration_enabled = optional(bool)
+  })
+  default = null
 }
 
 variable "private_cluster_enabled" {
