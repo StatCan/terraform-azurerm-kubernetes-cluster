@@ -1,16 +1,16 @@
 output "kubernetes_cluster_id" {
   description = "The Kubernetes Managed Cluster ID."
-  value       = azurerm_kubernetes_cluster.cluster.id
+  value       = azurerm_kubernetes_cluster.this.id
 }
 
 output "node_resource_group_name" {
   description = "The auto-generated Resource Group which contains the resources for this Managed Kubernetes Cluster."
-  value       = azurerm_kubernetes_cluster.cluster.node_resource_group
+  value       = azurerm_kubernetes_cluster.this.node_resource_group
 }
 
 output "node_resource_group_id" {
   description = "The ID of the Resource Group containing the resources for this Managed Kubernetes Cluster."
-  value       = azurerm_kubernetes_cluster.cluster.node_resource_group_id
+  value       = azurerm_kubernetes_cluster.this.node_resource_group_id
 }
 
 ##################
@@ -49,17 +49,17 @@ output "windows_password" {
 
 output "kubeconfig" {
   description = "A Terraform object that contains kubeconfig info."
-  value       = azurerm_kubernetes_cluster.cluster.kube_config
+  value       = azurerm_kubernetes_cluster.this.kube_config
 }
 
 output "admin_kubeconfig" {
   description = "A Terraform object that contain kubeconfig info. This is only available when Role Based Access Control with Azure Active Directory is enabled and local accounts enabled."
-  value       = var.local_account_disabled == false ? azurerm_kubernetes_cluster.cluster.kube_admin_config : null
+  value       = var.local_account_disabled == false ? azurerm_kubernetes_cluster.this.kube_admin_config : null
 }
 
 output "kubernetes_identity" {
   description = "The managed service identity assigned to the Kubernetes cluster"
-  value       = azurerm_kubernetes_cluster.cluster.identity
+  value       = azurerm_kubernetes_cluster.this.identity
 }
 
 output "kubernetes_kubelet_identity" {
@@ -73,10 +73,10 @@ output "kubernetes_kubelet_identity" {
 
 output "fqdn" {
   description = "The FQDN of the Azure Kubernetes Managed Cluster."
-  value       = azurerm_kubernetes_cluster.cluster.fqdn
+  value       = azurerm_kubernetes_cluster.this.fqdn
 }
 
 output "oidc_issuer_url" {
   description = "The OIDC issuer URL that is associated with the cluster."
-  value       = azurerm_kubernetes_cluster.cluster.oidc_issuer_url
+  value       = azurerm_kubernetes_cluster.this.oidc_issuer_url
 }

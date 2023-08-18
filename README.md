@@ -84,6 +84,7 @@ Examples for this module along with various configurations can be found in the [
 
 | Date       | Release | Change                                                                                                     |
 | ---------- | ------- | ---------------------------------------------------------------------------------------------------------- |
+| 2023-08-18 | v5.0.0  | modified the Terraform resource name of azurerm_kubernetes_cluster to be "this"                            |
 | 2023-08-18 | v4.0.0  | Replace var.api_server_authorized_ip_ranges with var.api_server variable & add VNet Integration capability |
 | 2023-08-18 | v3.0.0  | Renamed var.linux_profile_public_ssh_key & autogenerate SSH key if variable is null                        |
 | 2023-04-18 | v2.7.0  | added cluster kubeconfig to module outputs                                                                 |

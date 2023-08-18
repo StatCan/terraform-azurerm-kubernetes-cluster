@@ -42,7 +42,7 @@ resource "random_password" "windows_password" {
 #
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster
 #
-resource "azurerm_kubernetes_cluster" "cluster" {
+resource "azurerm_kubernetes_cluster" "this" {
   name                = "${var.prefix}-aks"
   resource_group_name = var.resource_group_name
   location            = var.location
