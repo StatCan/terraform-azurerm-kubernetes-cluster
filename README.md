@@ -34,7 +34,7 @@ Examples for this module along with various configurations can be found in the [
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | Name of the Resource Group where the Managed Kubernetes Cluster should exist | `string` | n/a | yes |
 | <a name="input_user_assigned_identity_ids"></a> [user\_assigned\_identity\_ids](#input\_user\_assigned\_identity\_ids) | User Assigned Identity IDs for use by the cluster control plane | `list(string)` | n/a | yes |
 | <a name="input_admin_group_object_ids"></a> [admin\_group\_object\_ids](#input\_admin\_group\_object\_ids) | A list of Azure AAD group object IDs that will receive administrative access to the cluster | `list(string)` | `[]` | no |
-| <a name="input_api_server_authorized_ip_ranges"></a> [api\_server\_authorized\_ip\_ranges](#input\_api\_server\_authorized\_ip\_ranges) | List of IP ranges authorized to reach the API server | `list(string)` | `[]` | no |
+| <a name="input_api_server"></a> [api\_server](#input\_api\_server) | Configuration for the cluster's API server. | <pre>object({<br>    authorized_ip_ranges     = optional(list(string))<br>    subnet_id                = optional(string)<br>    vnet_integration_enabled = optional(bool)<br>  })</pre> | `null` | no |
 | <a name="input_auto_scaler_profile"></a> [auto\_scaler\_profile](#input\_auto\_scaler\_profile) | The configuration details for the cluster's auto scaler profile. | <pre>object({<br>    expander      = optional(string, "random")<br>    scan_interval = optional(string, "10s")<br><br>    new_pod_scale_up_delay = optional(string, "10s")<br><br>    scale_down_utilization_threshold = optional(number, 0.5)<br>    scale_down_delay_after_add       = optional(string, "10m")<br>    scale_down_delay_after_delete    = optional(string) // defaults to scan_interval<br>    scale_down_delay_after_failure   = optional(string, "3m")<br>    scale_down_unneeded              = optional(string, "10m")<br>    scale_down_unready               = optional(string, "20m")<br><br>    max_graceful_termination_sec = optional(number, 600)<br>    max_node_provisioning_time   = optional(string, "15m")<br>    max_unready_nodes            = optional(number, 3)<br>    max_unready_percentage       = optional(number, 45)<br><br>    skip_nodes_with_local_storage = optional(bool, true)<br>    skip_nodes_with_system_pods   = optional(bool, true)<br>    balance_similar_node_groups   = optional(bool, false)<br>    empty_bulk_delete_max         = optional(number, 10)<br>  })</pre> | `null` | no |
 | <a name="input_automatic_channel_upgrade"></a> [automatic\_channel\_upgrade](#input\_automatic\_channel\_upgrade) | Automatically perform upgrades of the Kubernetes cluster (none, patch, rapid, stable) | `string` | `"none"` | no |
 | <a name="input_disk_encryption_set_id"></a> [disk\_encryption\_set\_id](#input\_disk\_encryption\_set\_id) | Used to encrypt the cluster's Nodes and Volumes with Customer Managed Keys. Changing this forces a new resource to be created. | `string` | `null` | no |
@@ -82,18 +82,19 @@ Examples for this module along with various configurations can be found in the [
 
 ## History
 
-| Date       | Release | Change                                                                                      |
-| ---------- | ------- | ------------------------------------------------------------------------------------------- |
-| 2023-08-17 | v3.0.0  | Renamed var.linux_profile_public_ssh_key & autogenerate SSH key if variable is null         |
-| 2023-04-18 | v2.7.0  | added cluster kubeconfig to module outputs                                                  |
-| 2023-04-11 | v2.6.0  | create var.dns_prefix & var.dns_prefix_private_cluster                                      |
-| 2023-04-05 | v2.5.1  | fix the default value for var.load_balancer (typo)                                          |
-| 2023-04-05 | v2.5.0  | add default value for cluster's node_resource_group arugment                                |
-| 2023-03-30 | v2.4.0  | add the node_resource_group_id output                                                       |
-| 2023-03-28 | v2.3.0  | add the maintenance_window variable                                                         |
-| 2023-03-28 | v2.2.0  | add the auto_scaler_profile variable                                                        |
-| 2023-03-27 | v2.1.0  | refactor load balancer profile & disable it by default                                      |
-| 2023-03-27 | v2.0.1  | fix the default value for var.kubelet_identity                                              |
-| 2023-03-27 | v2.0.0  | remove var.docker-bridge-cidr since it has been deprecated                                  |
-| 2023-03-17 | v1.0.1  | fix api_server_access_profile, load_balancer_profile & rename var.user_assigned_identity_id |
-| 2022-11-22 | v1.0.0  | initial commit                                                                              |
+| Date       | Release | Change                                                                                                     |
+| ---------- | ------- | ---------------------------------------------------------------------------------------------------------- |
+| 2023-08-18 | v4.0.0  | Replace var.api_server_authorized_ip_ranges with var.api_server variable & add VNet Integration capability |
+| 2023-08-18 | v3.0.0  | Renamed var.linux_profile_public_ssh_key & autogenerate SSH key if variable is null                        |
+| 2023-04-18 | v2.7.0  | added cluster kubeconfig to module outputs                                                                 |
+| 2023-04-11 | v2.6.0  | create var.dns_prefix & var.dns_prefix_private_cluster                                                     |
+| 2023-04-05 | v2.5.1  | fix the default value for var.load_balancer (typo)                                                         |
+| 2023-04-05 | v2.5.0  | add default value for cluster's node_resource_group arugment                                               |
+| 2023-03-30 | v2.4.0  | add the node_resource_group_id output                                                                      |
+| 2023-03-28 | v2.3.0  | add the maintenance_window variable                                                                        |
+| 2023-03-28 | v2.2.0  | add the auto_scaler_profile variable                                                                       |
+| 2023-03-27 | v2.1.0  | refactor load balancer profile & disable it by default                                                     |
+| 2023-03-27 | v2.0.1  | fix the default value for var.kubelet_identity                                                             |
+| 2023-03-27 | v2.0.0  | remove var.docker-bridge-cidr since it has been deprecated                                                 |
+| 2023-03-17 | v1.0.1  | fix api_server_access_profile, load_balancer_profile & rename var.user_assigned_identity_id                |
+| 2022-11-22 | v1.0.0  | initial commit                                                                                             |

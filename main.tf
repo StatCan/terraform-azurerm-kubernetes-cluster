@@ -68,8 +68,14 @@ resource "azurerm_kubernetes_cluster" "cluster" {
     identity_ids = var.user_assigned_identity_ids
   }
 
-  api_server_access_profile {
-    authorized_ip_ranges = var.api_server_authorized_ip_ranges
+  dynamic "api_server_access_profile" {
+    for_each = var.api_server != null ? ["api_server"] : []
+
+    content {
+      authorized_ip_ranges     = var.api_server.authorized_ip_ranges
+      subnet_id                = var.api_server.subnet_id
+      vnet_integration_enabled = var.api_server.vnet_integration_enabled
+    }
   }
 
   kubelet_identity {
