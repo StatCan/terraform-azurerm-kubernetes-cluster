@@ -130,7 +130,7 @@ resource "azurerm_kubernetes_cluster" "this" {
     admin_username = random_pet.linux_username.id
 
     ssh_key {
-      key_data = replace(coalesce(var.linux_profile_public_ssh_key, tls_private_key.ssh[0].public_key_openssh), "\n", "")
+      key_data = trimspace(try(var.linux_profile_public_ssh_key, tls_private_key.ssh[0].public_key_openssh))
     }
   }
 
