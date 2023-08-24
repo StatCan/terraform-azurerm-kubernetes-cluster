@@ -3,6 +3,11 @@ output "kubernetes_cluster_id" {
   value       = azurerm_kubernetes_cluster.this.id
 }
 
+output "kubernetes_cluster_name" {
+  description = "The name of the AKS cluster."
+  value       = azurerm_kubernetes_cluster.this.name
+}
+
 output "node_resource_group_name" {
   description = "The auto-generated Resource Group which contains the resources for this Managed Kubernetes Cluster."
   value       = azurerm_kubernetes_cluster.this.node_resource_group
