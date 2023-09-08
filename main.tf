@@ -235,5 +235,5 @@ resource "azurerm_kubernetes_cluster" "this" {
   oidc_issuer_enabled              = var.oidc_issuer.enabled
   workload_identity_enabled        = var.oidc_issuer.workload_identity_enabled
 
-  tags = var.tags
+  tags = local.tags
 }
