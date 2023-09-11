@@ -130,5 +130,5 @@ resource "azurerm_kubernetes_cluster" "cluster" {
     snapshot_controller_enabled = var.storage_profile.snapshot_controller_enabled
   }
 
-  tags = var.tags
+  tags = local.tags
 }
