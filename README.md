@@ -40,7 +40,7 @@ module "cluster" {
 ## Variables Values
 
 | Name                                     | Type         | Required | Value                                                                                                                                            |
-|------------------------------------------|--------------|----------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| ---------------------------------------- | ------------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
 | prefix                                   | string       | yes      | Prefix for Azure resources created by the module                                                                                                 |
 | resource_group_name                      | string       | yes      | Name of the Azure resource group to deploy Azure resources                                                                                       |
 | node_resource_group_name                 | string       | no       | Name of the Azure resource group created by the cluster. This resource group must not already exist. If unset, Azure will generate a random name |
@@ -71,6 +71,10 @@ module "cluster" {
 
 ## History
 
-| Date       | Release     | Change          |
-| -----------| ------------| ----------------|
-| 2021-07-06 | 1.0.0       | Initial release |
+| Date       | Release | Change                                        |
+| ---------- | ------- | --------------------------------------------- |
+| 2023-09-11 | 1.0.4   | Backport tagging strategy for Azure resources |
+| 2023-07-31 | 1.0.3   | Fix load_balancer_sku case                    |
+| 2023-07-31 | 1.0.2   | Leverage AKS managed blob-csi driver          |
+| 2022-03-24 | 1.0.1   | Add standard files for open sourcing          |
+| 2021-07-06 | 1.0.0   | Initial release                               |
