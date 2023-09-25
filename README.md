@@ -89,6 +89,7 @@ Examples for this module along with various configurations can be found in the [
 
 | Date       | Release | Change                                                                                                     |
 | ---------- | ------- | ---------------------------------------------------------------------------------------------------------- |
+| 2023-09-25 | v6.0.1  | Change to `main` being default branch instead of v2.x and make a 2.x tag to latest 2.x ref               |
 | 2023-09-20 | v6.0.0  | Implement standardized naming strategy                                                                     |
 | 2023-09-06 | v5.1.2  | Implement tagging strategy for Azure resources                                                             |
 | 2023-08-24 | v5.1.1  | fix linux profile SSH key reference logic                                                                  |
