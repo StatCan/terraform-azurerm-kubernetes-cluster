@@ -2,9 +2,15 @@
 ### Azure Resource ###
 ######################
 
-variable "prefix" {
-  description = "The prefix used for the name of the cluster."
-  type        = string
+variable "azure_resource_attributes" {
+  description = "Attributes used to describe Azure resources"
+  type = object({
+    project     = string
+    environment = string
+    location    = optional(string, "Canada Central")
+    instance    = number
+  })
+  nullable = false
 }
 
 variable "resource_group_name" {
@@ -16,13 +22,6 @@ variable "resource_group_name" {
 variable "node_resource_group_name" {
   description = "Name of the Resource Group where the Kubernetes Nodes should exist"
   default     = null
-}
-
-variable "location" {
-  description = "The location where the Managed Kubernetes Cluster should be created."
-  type        = string
-  nullable    = false
-  default     = "Canada Central"
 }
 
 variable "tags" {
@@ -101,7 +100,7 @@ variable "dns_prefix_private_cluster" {
 }
 
 variable "sku_tier" {
-  description = "SKU Tier of the cluster (\"Paid\" is preferred). The SKU determines the cluster's uptime SLA. Refer to https://learn.microsoft.com/en-us/azure/aks/uptime-sla for more information."
+  description = "SKU Tier of the cluster (\"Standard\" is preferred). The SKU determines the cluster's uptime SLA. Refer to https://learn.microsoft.com/en-us/azure/aks/uptime-sla for more information."
   type        = string
   default     = "Free"
 }

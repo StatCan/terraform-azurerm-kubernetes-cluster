@@ -1,16 +1,3 @@
-locals {
-  prefix = "dev"
-
-  azure_tags = {
-    DataClassification      = "Undefined"
-    wid                     = 900033
-    Metadata                = "Undefined"
-    environment             = "dev"
-    PrimaryTechnicalContact = "william.hearn@statcan.gc.ca"
-    PrimaryProjectContact   = "zachary.seguin@statcan.gc.ca"
-  }
-}
-
 #####################
 ### Prerequisites ###
 #####################
@@ -30,10 +17,17 @@ provider "azurerm" {
 module "cluster" {
   source = "../"
 
-  prefix                     = local.prefix
-  location                   = "Canada Central"
-  resource_group_name        = "ex_rg_name"
-  user_assigned_identity_ids = ["1234"]
+  azure_resource_attributes = {
+    project     = "cns"
+    environment = "dev"
+    location    = azurerm_resource_group.example.location
+    instance    = 0
+  }
+
+  resource_group_name = "ex_rg_name"
+
+  # Identity / RBAC
+  user_assigned_identity_ids = [azurerm_user_assigned_identity.aks.id]
 
   default_node_pool = {
     node_count             = 3
@@ -53,6 +47,4 @@ module "cluster" {
     auto_scaling_min_nodes = 0
     auto_scaling_max_nodes = 3
   }
-
-  tags = local.azure_tags
 }
