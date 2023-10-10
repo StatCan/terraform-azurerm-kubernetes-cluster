@@ -145,10 +145,11 @@ resource "azurerm_kubernetes_cluster" "this" {
 
   # Configure the default node pool
   default_node_pool {
-    name                 = var.default_node_pool.name
-    vnet_subnet_id       = var.default_node_pool.vnet_subnet_id
-    orchestrator_version = var.default_node_pool.kubernetes_version != null ? var.default_node_pool.kubernetes_version : var.kubernetes_version
-    zones                = var.default_node_pool.availability_zones
+    name                        = var.default_node_pool.name
+    temporary_name_for_rotation = "${var.default_node_pool.name}-temp"
+    vnet_subnet_id              = var.default_node_pool.vnet_subnet_id
+    orchestrator_version        = var.default_node_pool.kubernetes_version != null ? var.default_node_pool.kubernetes_version : var.kubernetes_version
+    zones                       = var.default_node_pool.availability_zones
 
     node_count          = !var.default_node_pool.enable_auto_scaling ? var.default_node_pool.node_count : null
     enable_auto_scaling = var.default_node_pool.enable_auto_scaling

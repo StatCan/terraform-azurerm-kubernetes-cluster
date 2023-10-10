@@ -89,7 +89,8 @@ Examples for this module along with various configurations can be found in the [
 
 | Date       | Release | Change                                                                                                     |
 | ---------- | ------- | ---------------------------------------------------------------------------------------------------------- |
-| 2023-09-25 | v6.0.1  | Change to `main` being default branch instead of v2.x and make a 2.x tag to latest 2.x ref               |
+| 2023-10-10 | v6.1.0  | Encapsulate the temporary_name_for_rotation logic within default_node_pool                                 |
+| 2023-09-25 | v6.0.1  | Change to `main` being default branch instead of v2.x and make a 2.x tag to latest 2.x ref                 |
 | 2023-09-20 | v6.0.0  | Implement standardized naming strategy                                                                     |
 | 2023-09-06 | v5.1.2  | Implement tagging strategy for Azure resources                                                             |
 | 2023-08-24 | v5.1.1  | fix linux profile SSH key reference logic                                                                  |
@@ -97,7 +98,7 @@ Examples for this module along with various configurations can be found in the [
 | 2023-08-22 | v5.0.1  | fix SSH key reference within cluster resource                                                              |
 | 2023-08-18 | v5.0.0  | modified the Terraform resource name of azurerm_kubernetes_cluster to be "this"                            |
 | 2023-08-18 | v4.0.0  | replace var.api_server_authorized_ip_ranges with var.api_server variable & add VNet Integration capability |
-| 2023-08-18 | v3.0.0  | renamed var.linux_profile_public_ssh_key  & autogenerate SSH key if variable is null                        |
+| 2023-08-18 | v3.0.0  | renamed var.linux_profile_public_ssh_key  & autogenerate SSH key if variable is null                       |
 | 2023-04-18 | v2.7.0  | added cluster kubeconfig to module outputs                                                                 |
 | 2023-04-11 | v2.6.0  | create var.dns_prefix & var.dns_prefix_private_cluster                                                     |
 | 2023-04-05 | v2.5.1  | fix the default value for var.load_balancer (typo)                                                         |
