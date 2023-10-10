@@ -89,6 +89,7 @@ Examples for this module along with various configurations can be found in the [
 
 | Date       | Release | Change                                                                                                     |
 | ---------- | ------- | ---------------------------------------------------------------------------------------------------------- |
+| 2023-10-10 | v6.1.1  | Fix temporary_name_for_rotation value                                                                      |
 | 2023-10-10 | v6.1.0  | Encapsulate the temporary_name_for_rotation logic within default_node_pool                                 |
 | 2023-09-25 | v6.0.1  | Change to `main` being default branch instead of v2.x and make a 2.x tag to latest 2.x ref                 |
 | 2023-09-20 | v6.0.0  | Implement standardized naming strategy                                                                     |
