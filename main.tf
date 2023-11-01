@@ -90,13 +90,14 @@ resource "azurerm_kubernetes_cluster" "cluster" {
 
   # Configure the default node pool
   default_node_pool {
-    name                 = var.default_node_pool_name
-    node_count           = !var.default_node_pool_enable_auto_scaling ? var.default_node_pool_node_count : null
-    orchestrator_version = var.default_node_pool_kubernetes_version != null ? var.default_node_pool_kubernetes_version : var.kubernetes_version
-    zones                = var.default_node_pool_availability_zones
-    enable_auto_scaling  = var.default_node_pool_enable_auto_scaling
-    min_count            = var.default_node_pool_enable_auto_scaling ? var.default_node_pool_auto_scaling_min_nodes : null
-    max_count            = var.default_node_pool_enable_auto_scaling ? var.default_node_pool_auto_scaling_max_nodes : null
+    name                        = var.default_node_pool_name
+    temporary_name_for_rotation = "temporary"
+    node_count                  = !var.default_node_pool_enable_auto_scaling ? var.default_node_pool_node_count : null
+    orchestrator_version        = var.default_node_pool_kubernetes_version != null ? var.default_node_pool_kubernetes_version : var.kubernetes_version
+    zones                       = var.default_node_pool_availability_zones
+    enable_auto_scaling         = var.default_node_pool_enable_auto_scaling
+    min_count                   = var.default_node_pool_enable_auto_scaling ? var.default_node_pool_auto_scaling_min_nodes : null
+    max_count                   = var.default_node_pool_enable_auto_scaling ? var.default_node_pool_auto_scaling_max_nodes : null
 
     # Node configuration
     vm_size               = var.default_node_pool_vm_size
