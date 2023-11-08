@@ -248,7 +248,7 @@ variable "auto_scaler_profile" {
     expander      = optional(string, "random")
     scan_interval = optional(string, "10s")
 
-    new_pod_scale_up_delay = optional(string, "10s")
+    new_pod_scale_up_delay = optional(string, "0s")
 
     scale_down_utilization_threshold = optional(number, 0.5)
     scale_down_delay_after_add       = optional(string, "10m")
@@ -262,7 +262,7 @@ variable "auto_scaler_profile" {
     max_unready_nodes            = optional(number, 3)
     max_unready_percentage       = optional(number, 45)
 
-    skip_nodes_with_local_storage = optional(bool, true)
+    skip_nodes_with_local_storage = optional(bool, false)
     skip_nodes_with_system_pods   = optional(bool, true)
     balance_similar_node_groups   = optional(bool, false)
     empty_bulk_delete_max         = optional(number, 10)

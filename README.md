@@ -87,28 +87,29 @@ Examples for this module along with various configurations can be found in the [
 
 ## History
 
-| Date       | Release | Change                                                                                                     |
-| ---------- | ------- | ---------------------------------------------------------------------------------------------------------- |
-| 2023-10-10 | v6.1.1  | Fix temporary_name_for_rotation value                                                                      |
-| 2023-10-10 | v6.1.0  | Encapsulate the temporary_name_for_rotation logic within default_node_pool                                 |
-| 2023-09-25 | v6.0.1  | Change to `main` being default branch instead of v2.x and make a 2.x tag to latest 2.x ref                 |
-| 2023-09-20 | v6.0.0  | Implement standardized naming strategy                                                                     |
-| 2023-09-06 | v5.1.2  | Implement tagging strategy for Azure resources                                                             |
-| 2023-08-24 | v5.1.1  | fix linux profile SSH key reference logic                                                                  |
-| 2023-08-22 | v5.1.0  | Add kubernetes_cluster_name output                                                                         |
-| 2023-08-22 | v5.0.1  | fix SSH key reference within cluster resource                                                              |
-| 2023-08-18 | v5.0.0  | modified the Terraform resource name of azurerm_kubernetes_cluster to be "this"                            |
-| 2023-08-18 | v4.0.0  | replace var.api_server_authorized_ip_ranges with var.api_server variable & add VNet Integration capability |
-| 2023-08-18 | v3.0.0  | renamed var.linux_profile_public_ssh_key  & autogenerate SSH key if variable is null                       |
-| 2023-04-18 | v2.7.0  | added cluster kubeconfig to module outputs                                                                 |
-| 2023-04-11 | v2.6.0  | create var.dns_prefix & var.dns_prefix_private_cluster                                                     |
-| 2023-04-05 | v2.5.1  | fix the default value for var.load_balancer (typo)                                                         |
-| 2023-04-05 | v2.5.0  | add default value for cluster's node_resource_group arugment                                               |
-| 2023-03-30 | v2.4.0  | add the node_resource_group_id output                                                                      |
-| 2023-03-28 | v2.3.0  | add the maintenance_window variable                                                                        |
-| 2023-03-28 | v2.2.0  | add the auto_scaler_profile variable                                                                       |
-| 2023-03-27 | v2.1.0  | refactor load balancer profile & disable it by default                                                     |
-| 2023-03-27 | v2.0.1  | fix the default value for var.kubelet_identity                                                             |
-| 2023-03-27 | v2.0.0  | remove var.docker-bridge-cidr since it has been deprecated                                                 |
-| 2023-03-17 | v1.0.1  | fix api_server_access_profile, load_balancer_profile & rename var.user_assigned_identity_id                |
-| 2022-11-22 | v1.0.0  | initial commit                                                                                             |
+| Date       | Release | Change                                                                                                                 |
+| ---------- | ------- | ---------------------------------------------------------------------------------------------------------------------- |
+| 2023-11-08 | v6.2.0  | Set default value new_pod_scale_up_delay to 0s & skip_nodes_with_local_storage to false within var.auto_scaler_profile |
+| 2023-10-10 | v6.1.1  | Fix temporary_name_for_rotation value                                                                                  |
+| 2023-10-10 | v6.1.0  | Encapsulate the temporary_name_for_rotation logic within default_node_pool                                             |
+| 2023-09-25 | v6.0.1  | Change to `main` being default branch instead of v2.x and make a 2.x tag to latest 2.x ref                             |
+| 2023-09-20 | v6.0.0  | Implement standardized naming strategy                                                                                 |
+| 2023-09-06 | v5.1.2  | Implement tagging strategy for Azure resources                                                                         |
+| 2023-08-24 | v5.1.1  | fix linux profile SSH key reference logic                                                                              |
+| 2023-08-22 | v5.1.0  | Add kubernetes_cluster_name output                                                                                     |
+| 2023-08-22 | v5.0.1  | fix SSH key reference within cluster resource                                                                          |
+| 2023-08-18 | v5.0.0  | modified the Terraform resource name of azurerm_kubernetes_cluster to be "this"                                        |
+| 2023-08-18 | v4.0.0  | replace var.api_server_authorized_ip_ranges with var.api_server variable & add VNet Integration capability             |
+| 2023-08-18 | v3.0.0  | renamed var.linux_profile_public_ssh_key  & autogenerate SSH key if variable is null                                   |
+| 2023-04-18 | v2.7.0  | added cluster kubeconfig to module outputs                                                                             |
+| 2023-04-11 | v2.6.0  | create var.dns_prefix & var.dns_prefix_private_cluster                                                                 |
+| 2023-04-05 | v2.5.1  | fix the default value for var.load_balancer (typo)                                                                     |
+| 2023-04-05 | v2.5.0  | add default value for cluster's node_resource_group arugment                                                           |
+| 2023-03-30 | v2.4.0  | add the node_resource_group_id output                                                                                  |
+| 2023-03-28 | v2.3.0  | add the maintenance_window variable                                                                                    |
+| 2023-03-28 | v2.2.0  | add the auto_scaler_profile variable                                                                                   |
+| 2023-03-27 | v2.1.0  | refactor load balancer profile & disable it by default                                                                 |
+| 2023-03-27 | v2.0.1  | fix the default value for var.kubelet_identity                                                                         |
+| 2023-03-27 | v2.0.0  | remove var.docker-bridge-cidr since it has been deprecated                                                             |
+| 2023-03-17 | v1.0.1  | fix api_server_access_profile, load_balancer_profile & rename var.user_assigned_identity_id                            |
+| 2022-11-22 | v1.0.0  | initial commit                                                                                                         |
