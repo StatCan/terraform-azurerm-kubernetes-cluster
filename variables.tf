@@ -46,17 +46,44 @@ variable "automatic_channel_upgrade" {
   default     = "none"
 }
 
+variable "node_os_channel_upgrade" {
+  description = "The upgrade channel for this Kubernetes Cluster Nodes' OS Image. Possible values are Unmanaged, SecurityPatch, NodeImage and None."
+  type        = string
+  default     = null
+}
+
 variable "maintenance_window" {
   description = "The maintenance window for the cluster. Refer to https://learn.microsoft.com/en-us/azure/aks/planned-maintenance for more information."
   type = object({
-    allowed = list(object({
-      day   = string
-      hours = set(number)
-    })),
-    not_allowed = list(object({
+    allowed = optional(list(object({
+      day   = string      # Sunday, Monday, Tuesday, Wednesday, Thursday, Friday or Saturday
+      hours = set(number) # An array of hour slots in a day
+    }))),
+    not_allowed = optional(list(object({
       end   = string
       start = string
-    })),
+    }))),
+  })
+  default = null
+}
+
+variable "maintenance_window_node_os" {
+  description = "The maintenance window for the node OS upgrades. Refer to https://learn.microsoft.com/en-us/azure/aks/planned-maintenance for more information."
+  type = object({
+    frequency    = string # Daily, Weekly, AbsoluteMonthly or RelativeMonthly
+    interval     = string
+    day_of_week  = optional(string) # Friday, Monday, Saturday, Sunday, Thursday, Tuesday or Wednesday
+    day_of_month = optional(string) # Value between 0 and 31 (inclusive)
+    week_index   = optional(string) # First, Second, Third, Fourth, or Last
+
+    start_time = optional(string) #  Format is HH:mm
+    utc_offset = optional(string)
+    duration   = string # The duration of the window for maintenance to run in hours
+
+    not_allowed = optional(list(object({
+      end   = string
+      start = string
+    }))),
   })
   default = null
 }

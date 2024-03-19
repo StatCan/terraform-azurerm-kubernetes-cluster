@@ -3,7 +3,7 @@ locals {
     var.tags,
     {
       ModuleName    = "terraform-azure-kubernetes-cluster",
-      ModuleVersion = "6.0.1",
+      ModuleVersion = "6.3.0",
     }
   )
 }

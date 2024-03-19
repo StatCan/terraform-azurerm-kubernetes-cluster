@@ -89,6 +89,7 @@ Examples for this module along with various configurations can be found in the [
 
 | Date       | Release | Change                                                                                                                 |
 | ---------- | ------- | ---------------------------------------------------------------------------------------------------------------------- |
+| 2024-03-18 | v6.3.0  | Add node_os_channel_upgrade & maintenance_window_node_os configuration                                                 |
 | 2023-11-08 | v6.2.0  | Set default value new_pod_scale_up_delay to 0s & skip_nodes_with_local_storage to false within var.auto_scaler_profile |
 | 2023-10-10 | v6.1.1  | Fix temporary_name_for_rotation value                                                                                  |
 | 2023-10-10 | v6.1.0  | Encapsulate the temporary_name_for_rotation logic within default_node_pool                                             |

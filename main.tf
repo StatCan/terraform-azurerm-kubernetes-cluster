@@ -48,9 +48,10 @@ resource "azurerm_kubernetes_cluster" "this" {
   location            = var.azure_resource_attributes.location
   node_resource_group = var.node_resource_group_name == null ? "${module.azure_resource_prefixes.resource_group_prefix}-managed-aks" : var.node_resource_group_name
 
-  # Cluster versioning
+  # Versioning
   kubernetes_version        = var.kubernetes_version
   automatic_channel_upgrade = var.automatic_channel_upgrade != "none" ? var.automatic_channel_upgrade : null
+  node_os_channel_upgrade   = var.node_os_channel_upgrade
 
   # API Server
   sku_tier                   = var.sku_tier
@@ -223,6 +224,31 @@ resource "azurerm_kubernetes_cluster" "this" {
       }
       dynamic "not_allowed" {
         for_each = var.maintenance_window.not_allowed
+
+        content {
+          end   = not_allowed.value.end
+          start = not_allowed.value.start
+        }
+      }
+    }
+  }
+
+  dynamic "maintenance_window_node_os" {
+    for_each = var.maintenance_window_node_os != null ? ["maintenance_window_node_os"] : []
+
+    content {
+      frequency    = var.maintenance_window_node_os.frequency
+      day_of_week  = var.maintenance_window_node_os.day_of_week
+      day_of_month = var.maintenance_window_node_os.day_of_week
+      week_index   = var.maintenance_window_node_os.day_of_week
+      interval     = var.maintenance_window_node_os.interval
+
+      start_time = var.maintenance_window_node_os.start_time
+      utc_offset = var.maintenance_window_node_os.utc_offset
+      duration   = var.maintenance_window_node_os.duration
+
+      dynamic "not_allowed" {
+        for_each = var.maintenance_window_node_os.not_allowed
 
         content {
           end   = not_allowed.value.end
