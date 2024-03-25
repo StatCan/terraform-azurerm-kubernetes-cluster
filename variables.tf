@@ -71,9 +71,9 @@ variable "maintenance_window_node_os" {
   description = "The maintenance window for the node OS upgrades. Refer to https://learn.microsoft.com/en-us/azure/aks/planned-maintenance for more information."
   type = object({
     frequency    = string # Daily, Weekly, AbsoluteMonthly or RelativeMonthly
-    interval     = string
+    interval     = number
     day_of_week  = optional(string) # Friday, Monday, Saturday, Sunday, Thursday, Tuesday or Wednesday
-    day_of_month = optional(string) # Value between 0 and 31 (inclusive)
+    day_of_month = optional(number) # Value between 0 and 31 (inclusive)
     week_index   = optional(string) # First, Second, Third, Fourth, or Last
 
     start_time = optional(string) #  Format is HH:mm
@@ -83,7 +83,7 @@ variable "maintenance_window_node_os" {
     not_allowed = optional(list(object({
       end   = string
       start = string
-    }))),
+    })), [])
   })
   default = null
 }

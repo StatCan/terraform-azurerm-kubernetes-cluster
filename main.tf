@@ -239,8 +239,8 @@ resource "azurerm_kubernetes_cluster" "this" {
     content {
       frequency    = var.maintenance_window_node_os.frequency
       day_of_week  = var.maintenance_window_node_os.day_of_week
-      day_of_month = var.maintenance_window_node_os.day_of_week
-      week_index   = var.maintenance_window_node_os.day_of_week
+      day_of_month = var.maintenance_window_node_os.day_of_month
+      week_index   = var.maintenance_window_node_os.week_index
       interval     = var.maintenance_window_node_os.interval
 
       start_time = var.maintenance_window_node_os.start_time
