@@ -113,4 +113,13 @@ module "cluster" {
     upgrade_max_surge      = "33%"
     enable_auto_scaling    = false
   }
+
+  maintenance_window_node_os = {
+    frequency   = "Weekly"
+    interval    = 1
+    day_of_week = "Tuesday"
+
+    start_time = "22:00"
+    duration   = 4
+  }
 }
