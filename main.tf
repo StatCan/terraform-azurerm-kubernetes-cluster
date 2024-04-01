@@ -160,7 +160,6 @@ resource "azurerm_kubernetes_cluster" "this" {
     # Node configuration
     vm_size               = var.default_node_pool.vm_size
     node_labels           = var.default_node_pool.node_labels
-    node_taints           = var.default_node_pool.node_taints
     type                  = "VirtualMachineScaleSets"
     enable_node_public_ip = false
     max_pods              = var.default_node_pool.max_pods
