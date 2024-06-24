@@ -110,7 +110,6 @@ module "cluster" {
     os_disk_size_gb        = 256
     os_disk_type           = "Managed"
     os_type                = "Linux"
-    upgrade_max_surge      = "33%"
     enable_auto_scaling    = false
   }
 

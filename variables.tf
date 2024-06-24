@@ -261,7 +261,16 @@ variable "default_node_pool" {
     auto_scaling_min_nodes = optional(number, 3) # Only used if enable_auto_scaling = true
     auto_scaling_max_nodes = optional(number, 5) # Only used if enable_auto_scaling = true
     max_pods               = optional(number, 60)
-    upgrade_max_surge      = optional(string, "33%")
+
+    upgrade_settings = optional(object({
+      max_surge                     = optional(string, "33%")
+      drain_timeout_in_minutes      = optional(number, 30)
+      node_soak_duration_in_minutes = optional(number, 0)
+      }), {
+      max_surge                     = "33%"
+      drain_timeout_in_minutes      = 30
+      node_soak_duration_in_minutes = 0
+    })
 
     enable_host_encryption = optional(bool, false)
     os_disk_size_gb        = optional(number, 256)

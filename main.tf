@@ -175,7 +175,9 @@ resource "azurerm_kubernetes_cluster" "this" {
 
     # Upgrade configuration
     upgrade_settings {
-      max_surge = var.default_node_pool.upgrade_max_surge
+      drain_timeout_in_minutes      = var.default_node_pool.upgrade_settings.drain_timeout_in_minutes
+      node_soak_duration_in_minutes = var.default_node_pool.upgrade_settings.node_soak_duration_in_minutes
+      max_surge                     = var.default_node_pool.upgrade_settings.max_surge
     }
 
     ultra_ssd_enabled = true
