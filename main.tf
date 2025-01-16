@@ -267,3 +267,33 @@ resource "azurerm_kubernetes_cluster" "this" {
 
   tags = local.tags
 }
+
+resource "azurerm_monitor_diagnostic_setting" "this" {
+  for_each = var.diag_setting
+
+  name               = each.key
+  target_resource_id = azurerm_kubernetes_cluster.this.id
+
+  # Send to log analytics workspace
+  log_analytics_workspace_id     = each.value.log_analytics_workspace_id
+  log_analytics_destination_type = each.value.log_analytics_destination_type
+
+  # Send to storage account
+  storage_account_id = each.value.storage_account_id
+
+  dynamic "enabled_log" {
+    for_each = each.value.enabled_log_categories
+
+    content {
+      category = enabled_log.value
+    }
+  }
+
+  dynamic "metric" {
+    for_each = each.value.enable_all_metrics ? ["enable_all_metrics"] : []
+    content {
+      enabled  = each.value.enable_all_metrics
+      category = "AllMetrics"
+    }
+  }
+}
