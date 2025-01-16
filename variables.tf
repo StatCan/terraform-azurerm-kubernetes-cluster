@@ -359,3 +359,18 @@ variable "storage_profile" {
     snapshot_controller_enabled = true
   }
 }
+
+###################################
+### Monitor Diagnostic Settings ###
+###################################
+
+variable "diag_setting" {
+  type = map(object({
+    log_analytics_workspace_id     = optional(string)
+    log_analytics_destination_type = optional(string)
+    storage_account_id             = optional(string)
+    enabled_log_categories         = optional(list(string), ["kube-apiserver", "kube-controller-manager", "cluster-autoscaler"])
+    enable_all_metrics             = optional(bool, false)
+  }))
+  default = null
+}
