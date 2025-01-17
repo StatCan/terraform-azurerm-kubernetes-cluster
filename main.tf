@@ -269,7 +269,7 @@ resource "azurerm_kubernetes_cluster" "this" {
 }
 
 resource "azurerm_monitor_diagnostic_setting" "this" {
-  for_each = var.diag_setting
+  for_each = coalesce(var.diag_setting, {})
 
   name               = each.key
   target_resource_id = azurerm_kubernetes_cluster.this.id
