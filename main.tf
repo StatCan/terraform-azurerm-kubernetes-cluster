@@ -55,6 +55,7 @@ resource "azurerm_kubernetes_cluster" "this" {
 
   # API Server
   sku_tier                   = var.sku_tier
+  support_plan               = var.support_plan
   private_cluster_enabled    = var.private_cluster_enabled
   private_dns_zone_id        = var.private_cluster_enabled ? (var.private_dns_zone_id != null ? var.private_dns_zone_id : "System") : null
   dns_prefix                 = var.dns_prefix

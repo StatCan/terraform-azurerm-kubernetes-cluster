@@ -89,6 +89,7 @@ Examples for this module along with various configurations can be found in the [
 
 | Date       | Release | Change                                                                                                                 |
 | ---------- | ------- | ---------------------------------------------------------------------------------------------------------------------- |
+| 2025-10-20 | v6.5.2  | Add variable `support_plan`. Change default for `sku_tier` to `Standard`.                     |
 | 2025-01-17 | v6.5.1  | Fix error when no diagnostic settings are set                                                                          |
 | 2025-01-15 | v6.5.0  | Add capability to send logs to either Storage account or Log Analytics workspace                                       |
 | 2024-06-19 | v6.4.0  | Add capability to specify default node pool drain_timeout_in_minutes & node_soak_duration_in_minutes                   |

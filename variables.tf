@@ -129,7 +129,13 @@ variable "dns_prefix_private_cluster" {
 variable "sku_tier" {
   description = "SKU Tier of the cluster (\"Standard\" is preferred). The SKU determines the cluster's uptime SLA. Refer to https://learn.microsoft.com/en-us/azure/aks/uptime-sla for more information."
   type        = string
-  default     = "Free"
+  default     = "Standard"
+}
+
+variable "support_plan" {
+  description = "Specifies the support plan which should be used for this Kubernetes Cluster. Possible values are KubernetesOfficial and AKSLongTermSupport. Defaults to KubernetesOfficial"
+  type        = string
+  default     = "KubernetesOfficial"
 }
 
 #######################
