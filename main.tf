@@ -68,6 +68,10 @@ resource "azurerm_kubernetes_cluster" "this" {
   azure_policy_enabled             = false
   http_application_routing_enabled = false
 
+  upgrade_override {
+    force_upgrade_enabled = false
+  }
+
   # Identity / RBAC
   identity {
     type         = "UserAssigned"
